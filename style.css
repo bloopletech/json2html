@@ -1,0 +1,74 @@
+body { min-height: 100%; font-family: Verdana, "Trebuchet MS", Helvicita, Arial, sans-serif; font-size: 95%;
+ background-color: #ffffff; color: #000000; padding: 0px; margin: 0px; margin-bottom: 10px;
+  background-image: url(images/back.png); }
+hr { border: none; height: 1px; background-color: #808080; }
+form { padding: 0px; margin: 0px; }
+
+.header { text-align: center; padding-top: 17px; padding-left: 110px; height: 90px;
+ background: url(images/top1.png) repeat-x; }
+.bodywrap { background-color: #000000; display: none; position: absolute; top: 0px; left: 0px; z-index: 99; }
+
+.alpha { float: right; margin-top: -17px;  margin-right: 17px; padding-bottom: 10px; z-index: 5; }
+.shoutboxcon { float: right; margin-top: 25px; margin-right: 17px; padding-bottom: 10px; z-index: 5;
+  color: #000000; padding: 5px; background-color: #cccccc; text-align: left; position: absolute; right: 130px; }
+
+.mast { font-size: 105%; margin-top: 0px; }
+form > .mast { font-size: 110%; }
+.jsonlogo { float: right; margin-left: 1em; }
+.mainbody { padding-left: 1em; padding-right: 1em; }
+
+.footer { background-color: #ffffaa; padding: 3px; }
+
+img { border: 0px; }
+wbr:after { content: "\00200B"; }
+.noa { line-height: 0em; font-size: 0em; }
+.titled { border-bottom: 1px dashed #000000; }
+
+.output { margin-top: 1em; margin-bottom: 1em; }
+.desc { display: none; width: 40%; position: absolute; z-index: 99; padding: 1em; border: 1px solid #000000; background-color: #ffffee; }
+.closep { text-align: center; margin-bottom: 0px; }
+
+h3 { margin-top: -0.3em; margin-bottom: 0.5em; font-size: 105%; }
+
+table { border: 1px solid #000000; border-collapse: collapse; }
+table td, table th { padding: 0.2em 0.3em; border: 1px solid #000000; vertical-align: top; }
+
+div.object { padding: 1.5em; border: 1px solid #000000; background-color: #eeeeee; height: 1%; position: relative; }
+.objecttable { background-color: #ffffff; }
+div.array { padding: 1.5em; border: 1px solid #000000; background-color: #eeeeff; height: 1%; position: relative; }
+.arraytable { background-color: #ffffee; }
+
+.wrap { display: table; margin: 0.3em; }
+
+.string { color: #000000; }
+.number { color: #0000ff; }
+.boolean { color: #ff8000; }
+.void { color: #0000ff; }
+
+.widgets { position: absolute; top: 1em; right: 1.5em; width: 9px; height: 20px; }
+
+.statson { padding: 0.5em; background-color: #ffffff; border: 1px solid #a0a0a0; }
+#statscon { display: none; }
+#stats table { border: none; }
+#stats table tr { border: none; }
+#stats table td { border: none; }
+
+.ex { vertical-align: middle; margin-bottom: 1px; margin-top: 1px; }
+
+.clear { clear: both; }
+.lfloat { float: left; }
+.rfloat { float: right; }
+
+
+div > #submit { font-size: large; }
+div > #reset { font-size: large; }
+div > #help { font-size: large; }
+div > #statst { font-size: large; }
+#text { width: 99%; margin-bottom: 0.5em; border: 1px solid purple; padding: 1px; }
+#inputcontainer > #text { width: 100%; }
+.framed { width: 99%; margin-bottom: 0.5em; border: 1px solid purple; display: block; }
+
+#donate form { vertical-align: middle; }
+#donate form input { vertical-align: middle; }
+
+#shoutbox { display: none; border: 1px solid #000000; background-color: #ffffff; margin-top: 0.5em; }
