@@ -19,6 +19,7 @@ function escapeHTML(str)
 function wordwrap(str)
 {
    parts = str.split(" ");
+
    for(i = 0; i < parts.length; i++)
    {
       if(parts[i].length <= 30) continue;
@@ -26,13 +27,10 @@ function wordwrap(str)
       t = parts[i].length;
       p = "";
 
-      while(t > 30)
-      {
-          p += parts[i].substr(t - 30, t) + "<wbr />";
-          t -= 30;
-      }
-      parts[i] = p;
+      for(var j = 0; j < (parts[i].length - 30); j += 30) p += parts[i].substring(j, j + 30) + "<wbr />";
+      parts[i] = p + parts[i].substring(j, parts[i].length);
    }
+
    return parts.join(" ");
 }
 
