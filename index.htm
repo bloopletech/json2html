@@ -16,7 +16,6 @@
 <a name="_top" class="noa"></a>
 
 <div class="header">
-<div class="alpha"><a href="javascript:void(0);" onclick="doDonate();"><img src="images/donate.png" alt="Please Donate!" /></a></div>
 <div class="shoutboxcon"><a href="javascript:showShoutbox();" id="shoutboxlink">show shoutbox!</a>
    <div id="shoutbox">
       <!-- Begin Shoutbox - http://www.shoutmix.com -->
@@ -50,22 +49,11 @@
       Words longer than 30 characters may be broken into two or more lines to save space.</p>
       <p class="closep"><input type="button" onclick="hideHelp();" value="close" /></p>
    </div>
-   <div id="donate" class="desc">
-      <p><h3>Donation</h3>
-      I create projects like this one for people like you.
-      It would be great if you donated, say, $5 so I can continue to create new projects and support the projects I've
-      already completed.</p>
-      <p><form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            If you want to donate, you can so in less than two minutes via PayPal. Just click
-            <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but21.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">.
-            <img alt="" border="0" src="https://www.paypal.com/en_AU/i/scr/pixel.gif" width="1" height="1">
-            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
-      </form></p>
-      <p class="closep"><input type="button" onclick="hideDonate();" value="close" /></p>
-   </div>
 
    <form onsubmit="doParse(); return false;">
+      <div class="oz_quiz_notice">
+        <p>Like my <a href='http://blog.bloople.net/'>blog</a> <a href='http://kc.bloople.net/'>and</a> <a href='http://akc.bloople.net/'>my</a> <a href='http://json.bloople.net/'>other</a> <a href='http://rss.bloople.net/'>projects</a>? Support these projects and have some fun by <a href='http://itunes.com/apps/ozquiz'>checking out Oz Quiz</a>, a 600+ question Australian history &amp; popular culture quiz for the iPhone and iPod Touch I've co-developed.</p>
+      </div>
       <p class="mast mast_first">This page offers an easy way to visualize a string of JSON text.
       Put some JSON into the text area, and this page will instantly display the text as a set of nested boxes,
       corresponding to the objects, arrays and values in the JSON string.<br />
