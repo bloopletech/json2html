@@ -1,74 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html >
 <html>
 <head>
-<title>JSON 2 HTML</title>
+
 <link rel="StyleSheet" type="text/css" href="style.css" />
-<script type="text/javascript" src="scripts/json-min.js"></script>
-<script type="text/javascript" src="scripts/BubbleTooltips.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
 <script type="text/javascript" src="scripts/parse.js"></script>
-<!--[if lt IE 7]>
-<script defer type="text/javascript" src="scripts/pngfix.js"></script>
-<![endif]-->
 
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
-<body id="body" onmouseover="stopFocus();">
-<a name="_top" class="noa"></a>
-
-<div class="header">
-<div class="shoutboxcon"><a href="javascript:showShoutbox();" id="shoutboxlink">show shoutbox!</a>
-   <div id="shoutbox">
-      <!-- Begin Shoutbox - http://www.shoutmix.com -->
-      <iframe title="bloopletech" src="http://www.shoutmix.com/?bloopletech" width="160" height="400" frameborder="0" scrolling="auto">
-         <a href="http://www.shoutmix.com/?bloopletech">View shoutbox</a>
-      </iframe>
-      <!-- End Shoutbox -->
-   </div>
-</div>
-<img src="images/logo.png" alt="json 2 html" />
-</div>
-
-<div class="mainbody">
-   <div id="bodywrap" class="bodywrap"></div>
-   <div id="desc" class="desc">
-      <p><img class="jsonlogo" src="images/json.gif" alt="JSON logo" /><h3>json</h3>
-      <i>Quoting from the home page of <a href="http://www.json.org/">JSON</a></i><br />
-      JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate.</p>
-      <p><h3>syntax highlighting:</h3>
-      <span class='string'>Colour for text and null values.</span><br />
-      <span class='number'>Colour for numbers.</span><br />
-      <span class='boolean'>Colour for true and false values.</span><br />
-      <span class='void'>Colour for void values.</span><br />
-      <img class="ex" src="images/object.png" /> Background for Objects.<br />
-      <img class="ex" src="images/array.png" /> Background for Arrays.<br />
-      <img class="ex" src="images/objectt.png" /> Background for Object name/value pair tables.<br />
-      <img class="ex" src="images/arrayt.png" /> Background for Array value tables.</p>
-      <p><h3>dependencies</h3>
-      This page uses the JSON JavaScript <a href="http://www.json.org/js.html">parsing library</a>.</p>
-      <p><h3>note</h3>
-      Words longer than 30 characters may be broken into two or more lines to save space.</p>
-      <p class="closep"><input type="button" onclick="hideHelp();" value="close" /></p>
-   </div>
-
-   <form onsubmit="doParse(); return false;">
-      <p class="mast mast_first">This page offers an easy way to visualize a string of JSON text.
-      Put some JSON into the text area, and this page will instantly display the text as a set of nested boxes,
-      corresponding to the objects, arrays and values in the JSON string.<br />
-      You can also paste a URL into the textarea, and the JSON string will be loaded from the URL.</p>
-      </p>
-      <p class="mast">
-        JSON 2 HTML is open source and released under the MIT license - <a href="http://github.com/bloopletech/json2html/tree/master">get the source on github</a>. Patches / improvements are welcomed!
-      </p>
-      <div id="inputcontainer"><textarea id="text" rows="12"></textarea></div>
-      <div class="clear"></div>
-      <div class="lfloat"><input type="submit" id="submit" value="json 2 html" onclick="doParse(); return false;" /> <input type="button" id="reset" value="reset" onclick="clearPage();" /></div>
-      <div class="rfloat"><input type="button" id="help" value="help" onclick="doHelp();" /></div>
-      <div class="clear"></div>
-      <hr />
-      <a name="_output" class="noa"></a>
-      <div id="stats" class="stats"></div>
+<body>
+<textarea id="text" rows="12"></textarea>
+<input type="submit" id="submit" value="json 2 html" onclick=" doParse('#text', '#output');"/>
       <div id="output" class="output"></div>
-   </form>
-   <div class="footer">Check out my portfolio at <a href="http://i.bloople.net">i.bloople.net</a>. &copy; Brenton Fletcher. Comments? e-mail me: <a href="mailto:i@bloople.net">i@bloople.net</a>.</div>
+
 </body>
 </html>
