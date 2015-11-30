@@ -8,3 +8,7 @@ JSON 2 HTML
 使用了jquery选择器
 
 这样一来，大部分代码，就可以方便地套用到自己的项目中
+
+##效果图
+
+<img src="https://github.com/timeloveboy/json2html/blob/master/images/image.png">
