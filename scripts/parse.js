@@ -1,4 +1,4 @@
-//require jquery
+﻿//require jquery
 
 function escapeHTML(str)
 {
@@ -27,7 +27,7 @@ function wordwrap(str)
     return parts.join(" ");
 }
 var nestingLevel = 0;
-var Object2string="详情"
+var type2string = { "object": "detail", "array":"lists","th":"<tr><th>Index</th><th>Value</th></tr>"}
 function parseValue(val, parent, level)
 {
     elementCount++;
@@ -40,14 +40,14 @@ function parseValue(val, parent, level)
         if(val instanceof Array)
         {
             arrayCount++;
-            parent = parent + (parent != "" ? " > " : "") + "Array (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
+            parent = parent + (parent != "" ? " > " : "") +  type2string['array']+" (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
 
-            var out = "<div class='wrap'>\n<div class='array'>\n<div class='widgets'><img src='/Content/Image/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
+            var out = "<div class='wrap'>\n<div class='array'>\n<div class='widgets'><img src='/Content/Image/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>"+type2string['array']+"</span></h3>\n";
 
             if(val.length > 0)
             {
                 //require bootstrip
-                out += "<table class='table' style='background-color: #ffffff;'>\n<tr><th>Index</th><th>Value</th></tr>\n";
+                out += "<table class='table' style='background-color: #ffffff;'>\n" + type2string['th']+ "\n";
 
                 for(prop in val)
                 {
@@ -60,7 +60,7 @@ function parseValue(val, parent, level)
             else
             {
 
-                return "(empty <span class='titled' title='" + parent + "'>Array</span>)\n";
+                return "(empty <span class='titled' title='" + parent + "'>" + type2string['array']+ "</span>)\n";
             }
 
             out += "</div>\n</div>\n";
@@ -75,9 +75,9 @@ function parseValue(val, parent, level)
                 if(typeof(val[prop]) != "function") i++;
             }
 
-            parent = parent + (parent != "" ? " > " : "") + Object2string+"(" + i + " item" + (i != 1 ? "s)" : ")");
+            parent = parent + (parent != "" ? " > " : "") + type2string['object']+ "(" + i + " item" + (i != 1 ? "s)" : ")");
             //hide
-            var out = "<div class='wrap'>\n<div class='object'>\n<div class='widgets'><img src='/Content/Image/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>"+Object2string+"</span></h3>\n";
+            var out = "<div class='wrap'>\n<div class='object'>\n<div class='widgets'><img src='/Content/Image/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>"+type2string['object']+"</span></h3>\n";
 
             if(i > 0)
             {
@@ -92,7 +92,7 @@ function parseValue(val, parent, level)
             }
             else
             {
-                return "(empty <span class='titled' title='" + parent + "'>" + Object2string + "</span>)\n";
+                return "(empty <span class='titled' title='" + parent + "'>" + type2string[object] + "</span>)\n";
             }
 
             out += "</div>\n</div>\n";
