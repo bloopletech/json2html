@@ -1,15 +1,21 @@
-body { min-height: 100%; font-family: Verdana, "Trebuchet MS", Helvicita, Arial, sans-serif; font-size: 95%;
- background-color: #ffffff; color: #000000; padding: 0px; margin: 0px; margin-bottom: 10px;
-  background-image: url(images/back.png); }
+body {
+  min-height: 100%;
+  font-family: Verdana, "Trebuchet MS", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: 10px;
+  background-image: url(images/back.png);
+}
 hr { border: none; height: 1px; background-color: #808080; }
 form { padding: 0px; margin: 0px; }
 
 .header { text-align: center; padding-top: 17px; height: 90px;
  background: url(images/top1.png) repeat-x; }
 .bodywrap { background-color: #000000; display: none; position: absolute; top: 0px; left: 0px; z-index: 99; }
-
-.shoutboxcon { float: right; margin-top: 25px; margin-right: 17px; padding-bottom: 10px; z-index: 5;
-  color: #000000; padding: 5px; background-color: #cccccc; text-align: left; position: absolute; right: 0; }
 
 .mast { font-size: 105%; }
 .mast_first { margin-top: 0; }
@@ -30,15 +36,39 @@ wbr:after { content: "\00200B"; }
 
 h3 { margin-top: -0.3em; margin-bottom: 0.5em; font-size: 105%; }
 
-table { border: 1px solid #000000; border-collapse: collapse; }
-table td, table th { padding: 0.2em 0.3em; border: 1px solid #000000; vertical-align: top; }
+.wrap {
+  margin: 0.3em;
+}
 
-div.object { padding: 1.5em; border: 1px solid #000000; background-color: #eeeeee; height: 1%; position: relative; }
-.objecttable { background-color: #ffffff; }
-div.array { padding: 1.5em; border: 1px solid #000000; background-color: #eeeeff; height: 1%; position: relative; }
-.arraytable { background-color: #ffffee; }
+table {
+  border: 1px solid #000000;
+  border-collapse: collapse;
+}
 
-.wrap { display: table; margin: 0.3em; }
+table td, table th {
+  padding: 0.2em 0.3em;
+  border: 1px solid #000000;
+  vertical-align: top;
+}
+
+div.object {
+  padding: 1.5em;
+  border: 1px solid #000000;
+  background-color: #eeeeee;
+}
+.objecttable {
+  background-color: #ffffff;
+}
+div.array {
+  padding: 1.5em;
+  border: 1px solid #000000;
+  background-color: #eeeeff;
+}
+.arraytable {
+  background-color: #ffffee;
+}
+
+
 
 .string { color: #000000; }
 .number { color: #0000ff; }
@@ -70,8 +100,3 @@ div > #statst { font-size: large; }
 
 #donate form { vertical-align: middle; }
 #donate form input { vertical-align: middle; }
-
-#shoutbox { display: none; border: 1px solid #000000; background-color: #ffffff; margin-top: 0.5em; }
-
-.oz_quiz_notice { background-color: #ffffaa; border: 1px solid #ffff00; padding: 15px; margin-bottom: 15px; }
-.oz_quiz_notice p { margin: 0; }
