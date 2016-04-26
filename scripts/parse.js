@@ -46,7 +46,7 @@ function doStats() {
   return out;
 }
 
-function parseValue(val, parent, level) {
+function parseValue(val, level) {
   elementCount++;
 
   if(val == null) return "<span class='void'>(null)</span>";
@@ -57,24 +57,22 @@ function parseValue(val, parent, level) {
   if(level > nestingLevel) nestingLevel = level;
   if(val instanceof Array) {
     arrayCount++;
-    return parseArray(val, parent, level);
+    return parseArray(val, level);
   }
 
   objectCount++;
-  return parseObject(val, parent, level);
+  return parseObject(val, level);
 }
 
-function parseArray(val, parent, level) {
-  parent = parent + (parent != "" ? " > " : "") + "Array (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
+function parseArray(val, level) {
+  if(val.length == 0) return "(empty <span>Array</span>)\n";
 
-  if(val.length == 0) return "(empty <span class='titled' title='" + parent + "'>Array</span>)\n";
-
-  var out = "<div class='wrap'>\n<div class='array'>\n<div class='widgets'>⯆</div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
+  var out = "<div class='wrap'>\n<div class='array'>\n<div class='widgets'>▲</div>\n<h3><span>Array</span></h3>\n";
 
   out += "<table class='arraytable'>\n<tr><th class='key'>Index</th><th class='value'>Value</th></tr>\n";
 
   for(var i = 0, len = val.length; i < len; i++) {
-    out += "<tr><td>" + i + "</td><td>" + parseValue(val[i], parent, level + 1) + "</td></tr>\n";
+    out += "<tr><td>" + i + "</td><td>" + parseValue(val[i], level + 1) + "</td></tr>\n";
   }
 
   out += "</table>\n";
@@ -83,20 +81,18 @@ function parseArray(val, parent, level) {
   return out;
 }
 
-function parseObject(val, parent, level) {
+function parseObject(val, level) {
   var keys = Object.keys(val);
   var len = keys.length;
 
-  if(len == 0) return "(empty <span class='titled' title='" + parent + "'>Object</span>)\n";
+  if(len == 0) return "(empty <span>Object</span>)\n";
 
-  parent = parent + (parent != "" ? " > " : "") + "Object (" + len + " item" + (len != 1 ? "s)" : ")");
-
-  var out = "<div class='wrap'>\n<div class='object'>\n<div class='widgets'>⯆</div>\n<h3><span class='titled' title='" + parent + "'>Object</span></h3>\n";
+  var out = "<div class='wrap'>\n<div class='object'>\n<div class='widgets'>▲</div>\n<h3><span>Object</span></h3>\n";
 
   out += "<table class='objecttable'>\n<tr><th class='key'>Name</th><th class='value'>Value</th></tr>\n";
 
   for(var i = 0; i < len; i++) {
-    out += "<tr><td>" + keys[i] + "</td><td>" + parseValue(val[keys[i]], parent, level + 1) + "</td></tr>\n";
+    out += "<tr><td>" + keys[i] + "</td><td>" + parseValue(val[keys[i]], level + 1) + "</td></tr>\n";
   }
 
   out += "</table>\n";
@@ -128,7 +124,7 @@ function parse(str) {
     return;
   }
 
-  return parseValue(obj, "", 1);
+  return parseValue(obj, 1);
 }
 
 function doParse() {
@@ -149,8 +145,6 @@ function doParse2() {
 
     $("stats").innerHTML = doStats();
     $("stats").className = "";
-
-    //doTooltips();
 
     $("submit").value = "json 2 html";
     $("submit").disabled = null;
@@ -174,8 +168,6 @@ function gotURL() {
 
     $("stats").innerHTML = doStats();
 
-    doTooltips();
-
     $("submit").value = "json 2 html";
     $("submit").disabled = null;
 
@@ -197,18 +189,18 @@ function showStats() {
 }
 
 function hideChild(ele) {
-  var src = ele.src + "";
-  var minimizing = (src.indexOf("min.gif") != -1);
+  var minimizing = ele.innerHTML == "▲";
+  console.log(ele);
 
-  var nodes = ele.parentNode.parentNode.childNodes;
+  var nodes = ele.parentNode.childNodes;
+  console.log("nodes: ", nodes);
   for(i = 0; i < nodes.length; i++) {
     if(nodes[i].tagName == "TABLE") {
       nodes[i].style.display = (minimizing ? "none" : "");
 
-      ele.parentNode.parentNode.style.paddingRight = (minimizing ? "2.0em" : "1.5em");
-      ele.parentNode.style.right = (minimizing ? "1em" : "1.5em");
-
-      ele.src = (minimizing ? "images/max.gif" : "images/min.gif");
+      //ele.parentNode.parentNode.style.paddingRight = (minimizing ? "2.0em" : "1.5em");
+      //ele.parentNode.style.right = (minimizing ? "1em" : "1.5em");
+      ele.innerHTML = minimizing ? "▼" : "▲";
 
       return;
     }
@@ -251,14 +243,11 @@ function doHelp() {
   $("desc").style.display = "block";
   bodySize = Client.viewportSize();
 
-  $("bodywrap").style.width = bodySize.width + "px";
-  $("bodywrap").style.height = bodySize.height + "px";
   $("bodywrap").style.display = "block";
   $("bodywrap").style.opacity = "0.6";
 
   $("desc").style.left = ((bodySize.width / 2) - ($("desc").offsetWidth / 2)) + "px";
   $("desc").style.top = ((bodySize.height / 2) - ($("desc").offsetHeight / 2)) + "px";
-  location.href = "#_top";
 }
 
 function hideHelp() {
@@ -267,29 +256,7 @@ function hideHelp() {
   $("text").focus();
 }
 
-function doDonate() {
-  $("donate").style.display = "block";
-  bodySize = Client.viewportSize();
-
-  $("bodywrap").style.width = bodySize.width + "px";
-  $("bodywrap").style.height = bodySize.height + "px";
-  $("bodywrap").style.display = "block";
-  $("bodywrap").style.opacity = "0.6";
-
-  $("donate").style.left = ((bodySize.width / 2) - ($("donate").offsetWidth / 2)) + "px";
-  $("donate").style.top = ((bodySize.height / 2) - ($("donate").offsetHeight / 2)) + "px";
-  location.href = "#_top";
-}
-
-function hideDonate() {
-  $("donate").style.display = "none";
-  $("bodywrap").style.display = "none";
-  $("text").focus();
-}
-
 function load() {
-  enableTooltips();
-
   try {
     http = new ActiveXObject("Microsoft.XMLHTTP");
   }
@@ -300,6 +267,10 @@ function load() {
     catch(e) {
     }
   }
+
+  document.body.addEventListener("click", function(e) {
+    if(e.target && e.target.matches(".widgets")) hideChild(e.target);
+  });
 
   bodySize = Client.viewportSize();
 

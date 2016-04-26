@@ -1,27 +1,30 @@
 body {
-  min-height: 100%;
   font-family: Verdana, "Trebuchet MS", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.4;
   background-color: #ffffff;
   color: #000000;
-  padding: 0px;
   margin: 0px;
-  margin-bottom: 10px;
-  background-image: url(images/back.png);
+  padding: 0 1em 10px 1em;
 }
 hr { border: none; height: 1px; background-color: #808080; }
 form { padding: 0px; margin: 0px; }
 
-.header { text-align: center; padding-top: 17px; height: 90px;
- background: url(images/top1.png) repeat-x; }
-.bodywrap { background-color: #000000; display: none; position: absolute; top: 0px; left: 0px; z-index: 99; }
+.bodywrap {
+  background-color: #000000;
+  display: none;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  z-index: 99;
+}
 
 .mast { font-size: 105%; }
 .mast_first { margin-top: 0; }
 form > .mast { font-size: 110%; }
 .jsonlogo { float: right; margin-left: 1em; }
-.mainbody { padding-left: 1em; padding-right: 1em; }
 
 .footer { background-color: #ffffaa; padding: 3px; }
 
@@ -38,6 +41,7 @@ h3 { margin-top: -0.3em; margin-bottom: 0.5em; font-size: 105%; }
 
 .wrap {
   margin: 0.3em;
+  display: table;
 }
 
 table {
@@ -55,6 +59,7 @@ div.object {
   padding: 1.5em;
   border: 1px solid #000000;
   background-color: #eeeeee;
+  min-width: 5em;
 }
 .objecttable {
   background-color: #ffffff;
@@ -63,6 +68,7 @@ div.array {
   padding: 1.5em;
   border: 1px solid #000000;
   background-color: #eeeeff;
+  min-width: 5em;
 }
 .arraytable {
   background-color: #ffffee;
@@ -75,7 +81,11 @@ div.array {
 .boolean { color: #ff8000; }
 .void { color: #0000ff; }
 
-.widgets { position: absolute; top: 1em; right: 1.5em; width: 9px; height: 20px; }
+.widgets {
+  float: right;
+  height: 16px;
+  line-height: 16px;
+}
 
 .statson { padding: 0.5em; background-color: #ffffff; border: 1px solid #a0a0a0; }
 #statscon { display: none; }
@@ -94,9 +104,11 @@ div > #submit { font-size: large; }
 div > #reset { font-size: large; }
 div > #help { font-size: large; }
 div > #statst { font-size: large; }
-#text { width: 99%; margin-bottom: 0.5em; border: 1px solid purple; padding: 1px; }
-#inputcontainer > #text { width: 100%; }
-.framed { width: 99%; margin-bottom: 0.5em; border: 1px solid purple; display: block; }
 
-#donate form { vertical-align: middle; }
-#donate form input { vertical-align: middle; }
+#text {
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 0.5em;
+  border: 1px solid purple;
+  padding: 1px;
+}
