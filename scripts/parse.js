@@ -293,28 +293,6 @@ function hideHelp()
    $("text").focus();
 }
 
-function doDonate()
-{
-   $("donate").style.display = "block";
-   bodySize = Client.viewportSize();
-
-   $("bodywrap").style.width = bodySize.width + "px";
-   $("bodywrap").style.height = bodySize.height + "px";
-   $("bodywrap").style.display = "block";
-   $("bodywrap").style.opacity = "0.6";
-
-   $("donate").style.left = ((bodySize.width / 2) - ($("donate").offsetWidth / 2)) + "px";
-   $("donate").style.top = ((bodySize.height / 2) - ($("donate").offsetHeight / 2)) + "px";
-   location.href = "#_top";
-}
-
-function hideDonate()
-{
-    $("donate").style.display = "none";
-    $("bodywrap").style.display = "none";
-    $("text").focus();
-}
-
 function clearPage()
 {
    $("stats").innerHTML = "";

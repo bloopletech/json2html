@@ -253,11 +253,3 @@ div > #statst {
   border: 1px solid purple;
   display: block;
 }
-
-#donate form {
-  vertical-align: middle;
-}
-
-#donate form input {
-  vertical-align: middle;
-}
