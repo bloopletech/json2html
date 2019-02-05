@@ -106,7 +106,7 @@ form > .mast {
   border-bottom: 1px dashed #000000;
 }
 
-.output {
+#output {
   margin-top: 1em;
   margin-bottom: 1em;
 }
@@ -133,11 +133,10 @@ h3 {
 }
 
 div.object {
+  position: relative;
   padding: 1.5em;
   border: 1px solid #000000;
   background-color: #eeeeee;
-  height: 1%;
-  position: relative;
 }
 
 table.object {
@@ -145,11 +144,10 @@ table.object {
 }
 
 div.array {
+  position: relative;
   padding: 1.5em;
   border: 1px solid #000000;
   background-color: #eeeeff;
-  height: 1%;
-  position: relative;
 }
 
 table.array {
