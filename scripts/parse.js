@@ -159,12 +159,12 @@ function gotURL() {
     var result = parse(http.responseText, null);
     if(result != null) $("#output").innerHTML = result;
 
-    $("stats").innerHTML = doStats();
+    $("#stats").innerHTML = doStats();
 
     doTooltips();
 
-    $("submit").value = "json 2 html";
-    $("submit").disabled = null;
+    $("#submit").value = "json 2 html";
+    $("#submit").disabled = null;
 
     location.href = "#_output";
   }
