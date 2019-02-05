@@ -139,7 +139,7 @@ function parse(str)
    var obj = null;
    try
    {
-      obj = str.parseJSON();
+      obj = JSON.parse(str);
    }
    catch(e)
    {
