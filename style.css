@@ -20,7 +20,6 @@ form > .mast { font-size: 110%; }
 .footer { background-color: #ffffaa; padding: 3px; }
 
 img { border: 0px; }
-wbr:after { content: "\00200B"; }
 .noa { line-height: 0em; font-size: 0em; }
 .titled { border-bottom: 1px dashed #000000; }
 
@@ -40,7 +39,7 @@ div.array { padding: 1.5em; border: 1px solid #000000; background-color: #eeeeff
 
 .wrap { display: table; margin: 0.3em; }
 
-.string { color: #000000; }
+.string { color: #000000; word-break: break-word; }
 .number { color: #0000ff; }
 .boolean { color: #ff8000; }
 .void { color: #0000ff; }

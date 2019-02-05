@@ -6,32 +6,14 @@ function $(ele)
    return t;
 }
 
-function escapeHTML(str)
-{
-   //code portion borrowed from prototype library
-   var div = document.createElement('div');
-   var text = document.createTextNode(str);
-   div.appendChild(text);
-   return div.innerHTML;
-   //end portion
-}
-
-function wordwrap(str)
-{
-   parts = str.split(" ");
-
-   for(i = 0; i < parts.length; i++)
-   {
-      if(parts[i].length <= 30) continue;
-
-      t = parts[i].length;
-      p = "";
-
-      for(var j = 0; j < (parts[i].length - 30); j += 30) p += parts[i].substring(j, j + 30) + "<wbr />";
-      parts[i] = p + parts[i].substring(j, parts[i].length);
-   }
-
-   return parts.join(" ");
+function escapeHTML(unsafe) {
+  if(unsafe == null) return "";
+  return unsafe.toString()
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 var elementCount = 0;
@@ -74,7 +56,7 @@ function parseValue(val, parent, level)
             for(prop in val)
             {
                if(typeof(val[prop]) == "function") continue;
-               out += "<tr><td>" + prop + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
+               out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
             }
             
             out += "</table>\n";
@@ -107,7 +89,7 @@ function parseValue(val, parent, level)
             for(prop in val)
             {
                if(typeof(val[prop]) == "function") continue;
-               out += "<tr><td>" + prop + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
+               out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
             }
             
             out += "</table><div class='clear'></div>\n";
@@ -123,7 +105,7 @@ function parseValue(val, parent, level)
    }
    else
    {
-      if(typeof(val) == "string") return "<span class='string'>" + wordwrap(val.replace(/\n/g, "<br />")) + "</span>";
+      if(typeof(val) == "string") return "<span class='string'>" + escapeHTML(val).replace(/\n/g, "<br>") + "</span>";
       else if(typeof(val) == "number") return "<span class='number'>" + val + "</span>";
       else if(typeof(val) == "boolean") return "<span class='boolean'>" + val + "</span>";
       else return "<span class='void'>(null)</span>";
@@ -175,7 +157,7 @@ function doParse2()
    }
    else
    {
-      var result = parse(escapeHTML(value), null);
+      var result = parse(value, null);
       if(result != null) $("output").innerHTML = result;
 
       $("stats").innerHTML = doStats();
@@ -203,7 +185,7 @@ function gotURL()
 {
    if(http.readyState == 4)
    {
-      var result = parse(escapeHTML(http.responseText), null);
+      var result = parse(http.responseText, null);
       if(result != null) $("output").innerHTML = result;
 
       $("stats").innerHTML = doStats();
