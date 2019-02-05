@@ -157,7 +157,7 @@ function getURL(str) {
 function gotURL() {
   if(http.readyState == 4) {
     var result = parse(http.responseText, null);
-    if(result != null) $("output").innerHTML = result;
+    if(result != null) $("#output").innerHTML = result;
 
     $("stats").innerHTML = doStats();
 
