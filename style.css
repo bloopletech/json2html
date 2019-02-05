@@ -29,6 +29,11 @@ form {
 }
 
 textarea {
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 0.5em;
+  padding: 1px;
+  border: 1px solid purple;
   font-family: monospace;
 }
 
@@ -235,12 +240,4 @@ div > #help {
 
 div > #statst {
   font-size: large;
-}
-
-#text {
-  box-sizing: border-box;
-  width: 100%;
-  margin-bottom: 0.5em;
-  border: 1px solid purple;
-  padding: 1px;
 }
