@@ -42,66 +42,8 @@ function parseValue(val, parent, level)
    if(typeof(val) == "object")
    {
       if(level > nestingLevel) nestingLevel = level;
-      if(val instanceof Array)
-      {
-         arrayCount++;
-         parent = parent + (parent != "" ? " > " : "") + "Array (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
-
-         var out = "<div class='wrap'>\n<div class='array' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
-
-         if(val.length > 0)
-         {
-            out += "<table class='array'>\n<tr><th>Index</th><th>Value</th></tr>\n";
-            
-            for(prop in val)
-            {
-               if(typeof(val[prop]) == "function") continue;
-               out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
-            }
-            
-            out += "</table>\n";
-         }
-         else
-         {
-            
-            return "(empty <span class='titled' title='" + parent + "'>Array</span>)\n";
-         }
-         
-         out += "</div>\n</div>\n";
-         return out;
-      }
-      else
-      {
-         objectCount++;
-         i = 0;
-         for(prop in val)
-         {
-            if(typeof(val[prop]) != "function") i++;
-         }
-
-         parent = parent + (parent != "" ? " > " : "") + "Object (" + i + " item" + (i != 1 ? "s)" : ")");
-
-         var out = "<div class='wrap'>\n<div class='object' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Object</span></h3>\n";
-         
-         if(i > 0)
-         {
-            out += "<table class='object'>\n<tr><th>Name</th><th>Value</th></tr>\n";
-            for(prop in val)
-            {
-               if(typeof(val[prop]) == "function") continue;
-               out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
-            }
-            
-            out += "</table><div class='clear'></div>\n";
-         }
-         else
-         {
-            return "(empty <span class='titled' title='" + parent + "'>Object</span>)\n";
-         }
-         
-         out += "</div>\n</div>\n";
-         return out;
-      }
+      if(val instanceof Array) return parseArray(val, parent, level);
+      return parseObject(val, parent, level);
    }
    else
    {
@@ -110,6 +52,66 @@ function parseValue(val, parent, level)
       else if(typeof(val) == "boolean") return "<span class='boolean'>" + val + "</span>";
       else return "<span class='void'>(null)</span>";
    }
+}
+
+function parseArray(val, parent, level) {
+  arrayCount++;
+  parent = parent + (parent != "" ? " > " : "") + "Array (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
+
+  var out = "<div class='wrap'>\n<div class='array' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
+
+  if(val.length > 0)
+  {
+     out += "<table class='array'>\n<tr><th>Index</th><th>Value</th></tr>\n";
+
+     for(prop in val)
+     {
+        if(typeof(val[prop]) == "function") continue;
+        out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
+     }
+
+     out += "</table>\n";
+  }
+  else
+  {
+
+     return "(empty <span class='titled' title='" + parent + "'>Array</span>)\n";
+  }
+
+  out += "</div>\n</div>\n";
+  return out;
+}
+
+function parseObject(val, parent, level) {
+  objectCount++;
+  i = 0;
+  for(prop in val)
+  {
+     if(typeof(val[prop]) != "function") i++;
+  }
+
+  parent = parent + (parent != "" ? " > " : "") + "Object (" + i + " item" + (i != 1 ? "s)" : ")");
+
+  var out = "<div class='wrap'>\n<div class='object' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Object</span></h3>\n";
+
+  if(i > 0)
+  {
+     out += "<table class='object'>\n<tr><th>Name</th><th>Value</th></tr>\n";
+     for(prop in val)
+     {
+        if(typeof(val[prop]) == "function") continue;
+        out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
+     }
+
+     out += "</table><div class='clear'></div>\n";
+  }
+  else
+  {
+     return "(empty <span class='titled' title='" + parent + "'>Object</span>)\n";
+  }
+
+  out += "</div>\n</div>\n";
+  return out;
 }
 
 function parse(str)
@@ -265,7 +267,7 @@ var Client = {
   viewportHeight: function() {
     return self.innerHeight || (document.documentElement.clientHeight || document.body.clientHeight);
   },
-  
+
   viewportSize: function() {
     return { width: this.viewportWidth(), height: this.viewportHeight() };
   }
@@ -316,7 +318,7 @@ function load()
    }
 
    bodySize = Client.viewportSize();
-   
+
    if($("text").focus) $("text").focus();
 }
 
