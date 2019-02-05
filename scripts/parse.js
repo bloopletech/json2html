@@ -53,7 +53,7 @@ function parseArray(val, parent, level) {
   arrayCount++;
   parent = parent + (parent != "" ? " > " : "") + "Array (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
 
-  var out = "<div class='wrap'>\n<div class='array' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
+  var out = "<div class='array' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
 
   if(val.length > 0) {
     out += "<table class='array'>\n<tr><th>Index</th><th>Value</th></tr>\n";
@@ -69,7 +69,7 @@ function parseArray(val, parent, level) {
     return "(empty <span class='titled' title='" + parent + "'>Array</span>)\n";
   }
 
-  out += "</div>\n</div>\n";
+  out += "</div>\n";
   return out;
 }
 
@@ -82,7 +82,7 @@ function parseObject(val, parent, level) {
 
   parent = parent + (parent != "" ? " > " : "") + "Object (" + i + " item" + (i != 1 ? "s)" : ")");
 
-  var out = "<div class='wrap'>\n<div class='object' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Object</span></h3>\n";
+  var out = "<div class='object' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Object</span></h3>\n";
 
   if(i > 0) {
     out += "<table class='object'>\n<tr><th>Name</th><th>Value</th></tr>\n";
@@ -97,7 +97,7 @@ function parseObject(val, parent, level) {
     return "(empty <span class='titled' title='" + parent + "'>Object</span>)\n";
   }
 
-  out += "</div>\n</div>\n";
+  out += "</div>\n";
   return out;
 }
 

@@ -133,6 +133,7 @@ h3 {
 }
 
 div.object {
+  display: inline-block;
   position: relative;
   padding: 1.5em;
   border: 1px solid #000000;
@@ -144,6 +145,7 @@ table.object {
 }
 
 div.array {
+  display: inline-block;
   position: relative;
   padding: 1.5em;
   border: 1px solid #000000;
@@ -154,8 +156,7 @@ table.array {
   background-color: #ffffee;
 }
 
-.wrap {
-  display: table;
+td > div.object, td > div.array {
   margin: 0.3em;
 }
 
