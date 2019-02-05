@@ -3,6 +3,9 @@ body { min-height: 100%; font-family: Verdana, "Trebuchet MS", Helvicita, Arial,
   background-image: url(images/back.png); }
 hr { border: none; height: 1px; background-color: #808080; }
 form { padding: 0px; margin: 0px; }
+p {
+  margin: 0 0 15px 0;
+}
 
 .header { text-align: center; padding-top: 17px; height: 90px;
  background: url(images/top1.png) repeat-x; }
