@@ -37,6 +37,10 @@ textarea {
   font-family: monospace;
 }
 
+input[type="button"], input[type="submit"] {
+  font-size: large;
+}
+
 img {
   border: 0;
 }
@@ -111,7 +115,7 @@ form > .mast {
   margin-bottom: 1em;
 }
 
-.desc {
+#help-content {
   display: none;
   width: 40%;
   position: absolute;
@@ -222,20 +226,4 @@ td > div.object, td > div.array {
 
 .rfloat {
   float: right;
-}
-
-div > #submit {
-  font-size: large;
-}
-
-div > #reset {
-  font-size: large;
-}
-
-div > #help {
-  font-size: large;
-}
-
-div > #statst {
-  font-size: large;
 }

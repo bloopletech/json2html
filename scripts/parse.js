@@ -235,18 +235,18 @@ var Client = {
 };
 
 function doHelp() {
-  $("#desc").style.display = "block";
+  $("#help-content").style.display = "block";
   bodySize = Client.viewportSize();
 
   $("#backdrop").style.display = "block";
 
-  $("#desc").style.left = ((bodySize.width / 2) - ($("#desc").offsetWidth / 2)) + "px";
-  $("#desc").style.top = ((bodySize.height / 2) - ($("#desc").offsetHeight / 2)) + "px";
+  $("#help-content").style.left = ((bodySize.width / 2) - ($("#help-content").offsetWidth / 2)) + "px";
+  $("#help-content").style.top = ((bodySize.height / 2) - ($("#help-content").offsetHeight / 2)) + "px";
   location.href = "#_top";
 }
 
 function hideHelp() {
-  $("#desc").style.display = "none";
+  $("#help-content").style.display = "none";
   $("#backdrop").style.display = "none";
   $("#text").focus();
 }
