@@ -140,7 +140,7 @@ div.object {
   position: relative;
 }
 
-.objecttable {
+table.object {
   background-color: #ffffff;
 }
 
@@ -152,7 +152,7 @@ div.array {
   position: relative;
 }
 
-.arraytable {
+table.array {
   background-color: #ffffee;
 }
 

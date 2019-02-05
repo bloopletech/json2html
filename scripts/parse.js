@@ -51,7 +51,7 @@ function parseValue(val, parent, level)
 
          if(val.length > 0)
          {
-            out += "<table class='arraytable'>\n<tr><th>Index</th><th>Value</th></tr>\n";
+            out += "<table class='array'>\n<tr><th>Index</th><th>Value</th></tr>\n";
             
             for(prop in val)
             {
@@ -85,7 +85,7 @@ function parseValue(val, parent, level)
          
          if(i > 0)
          {
-            out += "<table class='objecttable'>\n<tr><th>Name</th><th>Value</th></tr>\n";
+            out += "<table class='object'>\n<tr><th>Name</th><th>Value</th></tr>\n";
             for(prop in val)
             {
                if(typeof(val[prop]) == "function") continue;
