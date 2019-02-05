@@ -132,27 +132,26 @@ h3 {
   font-size: 105%;
 }
 
-div.object {
+.object, .array {
   display: inline-block;
   position: relative;
   padding: 1.5em;
   border: 1px solid #000000;
+}
+
+.object {
   background-color: #eeeeee;
 }
 
-table.object {
+.object > table {
   background-color: #ffffff;
 }
 
-div.array {
-  display: inline-block;
-  position: relative;
-  padding: 1.5em;
-  border: 1px solid #000000;
+.array {
   background-color: #eeeeff;
 }
 
-table.array {
+.array > table {
   background-color: #ffffee;
 }
 

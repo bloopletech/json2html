@@ -56,7 +56,7 @@ function parseArray(val, parent, level) {
   var out = "<div class='array' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
 
   if(val.length > 0) {
-    out += "<table class='array'>\n<tr><th>Index</th><th>Value</th></tr>\n";
+    out += "<table>\n<tr><th>Index</th><th>Value</th></tr>\n";
 
     for(prop in val) {
       if(typeof(val[prop]) == "function") continue;
@@ -85,7 +85,7 @@ function parseObject(val, parent, level) {
   var out = "<div class='object' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Object</span></h3>\n";
 
   if(i > 0) {
-    out += "<table class='object'>\n<tr><th>Name</th><th>Value</th></tr>\n";
+    out += "<table>\n<tr><th>Name</th><th>Value</th></tr>\n";
     for(prop in val) {
       if(typeof(val[prop]) == "function") continue;
       out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
