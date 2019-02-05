@@ -1,10 +1,3 @@
-function $(ele) {
-  var t = document.getElementById(ele);
-  if(t == null) t = document.getElementsByName(ele);
-  if(t.length == 1) t = t.item(0);
-  return t;
-}
-
 function escapeHTML(unsafe) {
   if(unsafe == null) return "";
   return unsafe.toString()
@@ -113,12 +106,12 @@ function parse(str) {
   catch(e) {
     if(e instanceof SyntaxError) {
       alert("There was a syntax error in your JSON string.\n" + e.message + "\nPlease check your syntax and try again.");
-      $("text").focus();
+      $("#text").focus();
       return;
     }
 
     alert("There was an unknown error. Perhaps the JSON string contained a deep level of nesting.");
-    $("text").focus();
+    $("#text").focus();
     return
   }
 
@@ -126,28 +119,28 @@ function parse(str) {
 }
 
 function doParse() {
-  $("submit").value = "processing...";
-  $("submit").disabled = "disabled";
+  $("#submit").value = "processing...";
+  $("#submit").disabled = "disabled";
 
   setTimeout(doParse2, 50);
 }
 
 function doParse2() {
-  var value = $("text").value;
+  var value = $("#text").value;
   if(value.substr(0, 4) == "http" || value.substr(0, 4) == "file" || value.substr(0, 3) == "ftp") {
     getURL(value);
   }
   else {
     var result = parse(value, null);
-    if(result != null) $("output").innerHTML = result;
+    if(result != null) $("#output").innerHTML = result;
 
-    $("stats").innerHTML = doStats();
-    $("stats").className = "";
+    $("#stats").innerHTML = doStats();
+    $("#stats").className = "";
 
     doTooltips();
 
-    $("submit").value = "json 2 html";
-    $("submit").disabled = null;
+    $("#submit").value = "json 2 html";
+    $("#submit").disabled = null;
 
     location.href = "#_output";
   }
@@ -178,15 +171,15 @@ function gotURL() {
 }
 
 function showStats() {
-  if($("statscon").style.display != "block") {
-    $("statscon").style.display = "block";
-    $("stats").className = "statson";
-    $("statst").value = "Hide Statistics";
+  if($("#statscon").style.display != "block") {
+    $("#statscon").style.display = "block";
+    $("#stats").className = "statson";
+    $("#statst").value = "Hide Statistics";
   }
   else {
-    $("statscon").style.display = "none";
-    $("stats").className = "";
-    $("statst").value = "Show Statistics";
+    $("#statscon").style.display = "none";
+    $("#stats").className = "";
+    $("#statst").value = "Show Statistics";
   }
 }
 
@@ -242,28 +235,30 @@ var Client = {
 };
 
 function doHelp() {
-  $("desc").style.display = "block";
+  $("#desc").style.display = "block";
   bodySize = Client.viewportSize();
 
-  $("backdrop").style.display = "block";
+  $("#backdrop").style.display = "block";
 
-  $("desc").style.left = ((bodySize.width / 2) - ($("desc").offsetWidth / 2)) + "px";
-  $("desc").style.top = ((bodySize.height / 2) - ($("desc").offsetHeight / 2)) + "px";
+  $("#desc").style.left = ((bodySize.width / 2) - ($("#desc").offsetWidth / 2)) + "px";
+  $("#desc").style.top = ((bodySize.height / 2) - ($("#desc").offsetHeight / 2)) + "px";
   location.href = "#_top";
 }
 
 function hideHelp() {
-  $("desc").style.display = "none";
-  $("backdrop").style.display = "none";
-  $("text").focus();
+  $("#desc").style.display = "none";
+  $("#backdrop").style.display = "none";
+  $("#text").focus();
 }
 
 function clearPage() {
-  $("stats").innerHTML = "";
-  $("output").innerHTML = "";
+  $("#stats").innerHTML = "";
+  $("#output").innerHTML = "";
 }
 
 function load() {
+  window.$ = document.querySelector.bind(document);
+
   enableTooltips();
 
   try {
@@ -278,7 +273,7 @@ function load() {
 
   bodySize = Client.viewportSize();
 
-  if($("text").focus) $("text").focus();
+  if($("#text").focus) $("#text").focus();
 }
 
 window.onload = load;
