@@ -276,10 +276,7 @@ function doHelp()
    $("desc").style.display = "block";
    bodySize = Client.viewportSize();
 
-   $("bodywrap").style.width = bodySize.width + "px";
-   $("bodywrap").style.height = bodySize.height + "px";
-   $("bodywrap").style.display = "block";
-   $("bodywrap").style.opacity = "0.6";
+   $("backdrop").style.display = "block";
 
    $("desc").style.left = ((bodySize.width / 2) - ($("desc").offsetWidth / 2)) + "px";
    $("desc").style.top = ((bodySize.height / 2) - ($("desc").offsetHeight / 2)) + "px";
@@ -289,7 +286,7 @@ function doHelp()
 function hideHelp()
 {
    $("desc").style.display = "none";
-   $("bodywrap").style.display = "none";
+   $("backdrop").style.display = "none";
    $("text").focus();
 }
 
