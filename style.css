@@ -32,6 +32,21 @@ textarea {
   font-family: monospace;
 }
 
+img {
+  border: 0;
+}
+
+table {
+  border: 1px solid #000000;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 0.2em 0.3em;
+  border: 1px solid #000000;
+  vertical-align: top;
+}
+
 .header {
   text-align: center;
   padding-top: 17px;
@@ -75,10 +90,6 @@ form > .mast {
   padding: 3px;
 }
 
-img {
-  border: 0;
-}
-
 .noa {
   line-height: 0;
   font-size: 0;
@@ -112,18 +123,6 @@ h3 {
   margin-top: -0.3em;
   margin-bottom: 0.5em;
   font-size: 105%;
-}
-
-table {
-  border: 1px solid #000000;
-  border-collapse: collapse;
-}
-
-table td,
-table th {
-  padding: 0.2em 0.3em;
-  border: 1px solid #000000;
-  vertical-align: top;
 }
 
 div.object {
@@ -245,11 +244,4 @@ div > #statst {
 
 #inputcontainer > #text {
   width: 100%;
-}
-
-.framed {
-  width: 99%;
-  margin-bottom: 0.5em;
-  border: 1px solid purple;
-  display: block;
 }
