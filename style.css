@@ -8,9 +8,6 @@ form { padding: 0px; margin: 0px; }
  background: url(images/top1.png) repeat-x; }
 .bodywrap { background-color: #000000; display: none; position: absolute; top: 0px; left: 0px; z-index: 99; }
 
-.shoutboxcon { float: right; margin-top: 25px; margin-right: 17px; padding-bottom: 10px; z-index: 5;
-  color: #000000; padding: 5px; background-color: #cccccc; text-align: left; position: absolute; right: 0; }
-
 .mast { font-size: 105%; }
 .mast_first { margin-top: 0; }
 form > .mast { font-size: 110%; }
@@ -69,8 +66,6 @@ div > #statst { font-size: large; }
 
 #donate form { vertical-align: middle; }
 #donate form input { vertical-align: middle; }
-
-#shoutbox { display: none; border: 1px solid #000000; background-color: #ffffff; margin-top: 0.5em; }
 
 .oz_quiz_notice { background-color: #ffffaa; border: 1px solid #ffff00; padding: 15px; margin-bottom: 15px; }
 .oz_quiz_notice p { margin: 0; }

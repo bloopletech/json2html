@@ -315,20 +315,6 @@ function hideDonate()
     $("text").focus();
 }
 
-function showShoutbox()
-{
-   if($("shoutbox").style.display == "" || $("shoutbox").style.display == "none")
-   {
-      $("shoutbox").style.display = "block";
-      $("shoutboxlink").innerHTML = "hide shoutbox";
-   }
-   else
-   {
-      $("shoutbox").style.display = "none";
-      $("shoutboxlink").innerHTML = "show shoutbox!";
-   }
-}
-
 function clearPage()
 {
    $("stats").innerHTML = "";
