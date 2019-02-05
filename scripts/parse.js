@@ -1,5 +1,4 @@
-function $(ele)
-{
+function $(ele) {
    var t = document.getElementById(ele);
    if(t == null) t = document.getElementsByName(ele);
    if(t.length == 1) t = t.item(0);
@@ -21,8 +20,7 @@ var arrayCount = 0;
 var objectCount = 0;
 var nestingLevel = 0;
 
-function doStats()
-{
+function doStats() {
    var out = "<input type='button' id='statst' onclick='showStats();' value='Show Statistics' style='float: right;' />\n"
     + "<div class='clear'></div>\n"
      + "<div id='statscon'>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>" + arrayCount + "</td>\n</tr>\n"
@@ -33,20 +31,17 @@ function doStats()
    return out;
 }
 
-function parseValue(val, parent, level)
-{
+function parseValue(val, parent, level) {
    elementCount++;
    if(parent == null) parent = "";
    if(level == null) level = 1;
 
-   if(typeof(val) == "object")
-   {
+   if(typeof(val) == "object") {
       if(level > nestingLevel) nestingLevel = level;
       if(val instanceof Array) return parseArray(val, parent, level);
       return parseObject(val, parent, level);
    }
-   else
-   {
+   else {
       if(typeof(val) == "string") return "<span class='string'>" + escapeHTML(val).replace(/\n/g, "<br>") + "</span>";
       else if(typeof(val) == "number") return "<span class='number'>" + val + "</span>";
       else if(typeof(val) == "boolean") return "<span class='boolean'>" + val + "</span>";
@@ -60,21 +55,17 @@ function parseArray(val, parent, level) {
 
   var out = "<div class='wrap'>\n<div class='array' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
 
-  if(val.length > 0)
-  {
+  if(val.length > 0) {
      out += "<table class='array'>\n<tr><th>Index</th><th>Value</th></tr>\n";
 
-     for(prop in val)
-     {
+     for(prop in val) {
         if(typeof(val[prop]) == "function") continue;
         out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
      }
 
      out += "</table>\n";
   }
-  else
-  {
-
+  else {
      return "(empty <span class='titled' title='" + parent + "'>Array</span>)\n";
   }
 
@@ -85,8 +76,7 @@ function parseArray(val, parent, level) {
 function parseObject(val, parent, level) {
   objectCount++;
   i = 0;
-  for(prop in val)
-  {
+  for(prop in val) {
      if(typeof(val[prop]) != "function") i++;
   }
 
@@ -94,19 +84,16 @@ function parseObject(val, parent, level) {
 
   var out = "<div class='wrap'>\n<div class='object' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Object</span></h3>\n";
 
-  if(i > 0)
-  {
+  if(i > 0) {
      out += "<table class='object'>\n<tr><th>Name</th><th>Value</th></tr>\n";
-     for(prop in val)
-     {
+     for(prop in val) {
         if(typeof(val[prop]) == "function") continue;
         out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
      }
 
      out += "</table><div class='clear'></div>\n";
   }
-  else
-  {
+  else {
      return "(empty <span class='titled' title='" + parent + "'>Object</span>)\n";
   }
 
@@ -114,21 +101,17 @@ function parseObject(val, parent, level) {
   return out;
 }
 
-function parse(str)
-{
+function parse(str) {
    elementCount = 0;
    arrayCount = 0;
    objectCount = 0;
 
    var obj = null;
-   try
-   {
+   try {
       obj = JSON.parse(str);
    }
-   catch(e)
-   {
-      if(e instanceof SyntaxError)
-      {
+   catch(e) {
+      if(e instanceof SyntaxError) {
          alert("There was a syntax error in your JSON string.\n" + e.message + "\nPlease check your syntax and try again.");
          $("text").focus();
          return;
@@ -142,23 +125,19 @@ function parse(str)
    return parseValue(obj, null, null);
 }
 
-function doParse()
-{
+function doParse() {
    $("submit").value = "processing...";
    $("submit").disabled = "disabled";
 
    setTimeout(doParse2, 50);
 }
 
-function doParse2()
-{
+function doParse2() {
    var value = $("text").value;
-   if(value.substr(0, 4) == "http" || value.substr(0, 4) == "file" || value.substr(0, 3) == "ftp")
-   {
+   if(value.substr(0, 4) == "http" || value.substr(0, 4) == "file" || value.substr(0, 3) == "ftp") {
       getURL(value);
    }
-   else
-   {
+   else {
       var result = parse(value, null);
       if(result != null) $("output").innerHTML = result;
 
@@ -176,17 +155,14 @@ function doParse2()
 
 var http = null;
 
-function getURL(str)
-{
+function getURL(str) {
    http.open("get", "get.php?url=" + str);
    http.onreadystatechange = gotURL;
    http.send(null);
 }
 
-function gotURL()
-{
-   if(http.readyState == 4)
-   {
+function gotURL() {
+   if(http.readyState == 4) {
       var result = parse(http.responseText, null);
       if(result != null) $("output").innerHTML = result;
 
@@ -201,32 +177,26 @@ function gotURL()
    }
 }
 
-function showStats()
-{
-   if($("statscon").style.display != "block")
-   {
+function showStats() {
+   if($("statscon").style.display != "block") {
       $("statscon").style.display = "block";
       $("stats").className = "statson";
       $("statst").value = "Hide Statistics";
    }
-   else
-   {
+   else {
       $("statscon").style.display = "none";
       $("stats").className = "";
       $("statst").value = "Show Statistics";
    }
 }
 
-function hideChild(ele)
-{
+function hideChild(ele) {
    var src = ele.src + "";
    var minimizing = (src.indexOf("min.gif") != -1);
 
    var nodes = ele.parentNode.parentNode.childNodes;
-   for(i = 0; i < nodes.length; i++)
-   {
-      if(nodes[i].tagName == "TABLE")
-      {
+   for(i = 0; i < nodes.length; i++) {
+      if(nodes[i].tagName == "TABLE") {
          nodes[i].style.display = (minimizing ? "none" : "");
 
          ele.parentNode.parentNode.style.paddingRight = (minimizing ? "2.0em" : "1.5em");
@@ -240,8 +210,7 @@ function hideChild(ele)
 }
 
 var currentlyFocused = null;
-function doFocus(event, ele)
-{
+function doFocus(event, ele) {
    if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
    ele.style.border = "1px solid #ffa000";
 
@@ -252,8 +221,7 @@ function doFocus(event, ele)
    if(event.stopPropagation) event.stopPropagation();
 }
 
-function stopFocus()
-{
+function stopFocus() {
    if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
 }
 
@@ -273,8 +241,7 @@ var Client = {
   }
 };
 
-function doHelp()
-{
+function doHelp() {
    $("desc").style.display = "block";
    bodySize = Client.viewportSize();
 
@@ -285,36 +252,28 @@ function doHelp()
    location.href = "#_top";
 }
 
-function hideHelp()
-{
+function hideHelp() {
    $("desc").style.display = "none";
    $("backdrop").style.display = "none";
    $("text").focus();
 }
 
-function clearPage()
-{
+function clearPage() {
    $("stats").innerHTML = "";
    $("output").innerHTML = "";
 }
 
-function load()
-{
+function load() {
    enableTooltips();
 
-   try
-   {
+   try {
       http = new ActiveXObject("Microsoft.XMLHTTP");
    }
-   catch(e)
-   {
-      try
-      {
+   catch(e) {
+      try {
          http = new XMLHttpRequest();
       }
-      catch(e)
-      {
-      }
+      catch(e) {}
    }
 
    bodySize = Client.viewportSize();
