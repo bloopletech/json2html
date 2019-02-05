@@ -47,13 +47,6 @@ table th, table td {
   vertical-align: top;
 }
 
-.header {
-  text-align: center;
-  padding-top: 17px;
-  height: 90px;
-  background: url("images/top1.png") repeat-x;
-}
-
 #backdrop {
   background-color: rgba(0, 0, 0, 0.6);
   display: none;
@@ -63,6 +56,13 @@ table th, table td {
   bottom: 0;
   left: 0;
   z-index: 99;
+}
+
+#header {
+  height: 90px;
+  padding-top: 17px;
+  background: url("images/top1.png") repeat-x;
+  text-align: center;
 }
 
 .mast {
@@ -238,12 +238,9 @@ div > #statst {
 }
 
 #text {
-  width: 99%;
+  box-sizing: border-box;
+  width: 100%;
   margin-bottom: 0.5em;
   border: 1px solid purple;
   padding: 1px;
-}
-
-#inputcontainer > #text {
-  width: 100%;
 }
