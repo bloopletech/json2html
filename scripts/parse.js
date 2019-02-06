@@ -44,55 +44,28 @@ function parse(str) {
 function transform(val, parent, level) {
   var type = typeof(val);
 
-  if(type == "object") {
-    if(val instanceof Array) return transformArray(val, parent, level);
-    return transformObject(val, parent, level);
-  }
-
+  if(val == null) return { type: "void", value: "(null)" };
   if(type == "string") return { type: "string", value: val };
   if(type == "number") return { type: "number", value: val.toString() };
   if(type == "boolean") return { type: "boolean", value: val.toString() };
-  return { type: "void", value: "(null)" };
-}
-
-function transformArray(val, parent, level) {
-  var parent = parent + (parent != "" ? " > " : "") + "Array (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
-
-  var tuples = [];
-  for(prop in val) {
-    if(typeof(val[prop]) == "function") continue;
-
-    var tuple = transform(val[prop], parent, level + 1);
-    tuple.name = prop;
-    tuples.push(tuple);
-  }
-
-  return {
-    type: "array",
-    breadcrumbs: parent,
-    tuples: tuples
-  };
+  return transformObject(val, parent, level);
 }
 
 function transformObject(val, parent, level) {
-  var i = 0;
-  for(prop in val) {
-    if(typeof(val[prop]) != "function") i++;
-  }
+  var type = (val instanceof Array) ? "array" : "object";
 
-  var parent = parent + (parent != "" ? " > " : "") + "Object (" + i + " item" + (i != 1 ? "s)" : ")");
+  var props = Object.keys(val);
 
-  var tuples = [];
-  for(prop in val) {
-    if(typeof(val[prop]) == "function") continue;
+  var parent = parent + (parent != "" ? " > " : "") + (type == "array" ? "Array" : "Object") + " (" + props.length + " item" + (props.length != 1 ? "s)" : ")");
 
+  var tuples = props.map(function(prop) {
     var tuple = transform(val[prop], parent, level + 1);
     tuple.name = prop;
-    tuples.push(tuple);
-  }
+    return tuple;
+  });
 
   return {
-    type: "object",
+    type: type,
     breadcrumbs: parent,
     tuples: tuples
   };
