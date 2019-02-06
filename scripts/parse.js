@@ -108,7 +108,7 @@ function renderArray(array) {
   //arrayCount++;
   if(!array.tuples.length) return "(empty <span class='titled' title='" + array.breadcrumbs + "'>Array</span>)";
 
-  var out = "<div class='array' onmouseover='doFocus(event, this);'><div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div><h3><span class='titled' title='" + array.breadcrumbs + "'>Array</span></h3>";
+  var out = "<div class='array' onmouseover='doFocus(event, this);'><div class='widgets'><img src='images/min.gif'></div><h3><span class='titled' title='" + array.breadcrumbs + "'>Array</span></h3>";
   out += "<table><tr><th>Index</th><th>Value</th></tr>";
 
   for(var i = 0; i < array.tuples.length; i++) {
@@ -135,7 +135,7 @@ function renderArray(array) {
 function renderObject(object) {
   if(!object.tuples.length) return "(empty <span class='titled' title='" + object.breadcrumbs + "'>Object</span>)";
 
-  var out = "<div class='object' onmouseover='doFocus(event, this);'><div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div><h3><span class='titled' title='" + object.breadcrumbs + "'>Object</span></h3>";
+  var out = "<div class='object' onmouseover='doFocus(event, this);'><div class='widgets'><img src='images/min.gif'></div><h3><span class='titled' title='" + object.breadcrumbs + "'>Object</span></h3>";
   out += "<table><tr><th>Name</th><th>Value</th></tr>";
 
   for(var i = 0; i < object.tuples.length; i++) {
@@ -220,19 +220,19 @@ function showStats() {
   }
 }
 
-function hideChild(ele) {
-  var src = ele.src + "";
+function toggleVisibility(img) {
+  var src = img.src + "";
   var minimizing = (src.indexOf("min.gif") != -1);
 
-  var nodes = ele.parentNode.parentNode.childNodes;
+  var nodes = img.parentNode.parentNode.childNodes;
   for(i = 0; i < nodes.length; i++) {
     if(nodes[i].tagName == "TABLE") {
       nodes[i].style.display = (minimizing ? "none" : "");
 
-      ele.parentNode.parentNode.style.paddingRight = (minimizing ? "2.0em" : "1.5em");
-      ele.parentNode.style.right = (minimizing ? "1em" : "1.5em");
+      img.parentNode.parentNode.style.paddingRight = (minimizing ? "2.0em" : "1.5em");
+      img.parentNode.style.right = (minimizing ? "1em" : "1.5em");
 
-      ele.src = (minimizing ? "images/max.gif" : "images/min.gif");
+      img.src = (minimizing ? "images/max.gif" : "images/min.gif");
 
       return;
     }
@@ -295,6 +295,13 @@ function clearPage() {
 
 function load() {
   window.$ = document.querySelector.bind(document);
+
+  document.body.addEventListener("click", function(event) {
+    if(event.target.matches(".widgets img")) {
+      event.preventDefault();
+      toggleVisibility(event.target);
+    }
+  });
 
   enableTooltips();
 
