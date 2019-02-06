@@ -187,11 +187,11 @@ td > div.object, td > div.array {
   background-image: url("images/min.gif");
 }
 
-.widget.minimised {
+div.minimised > .widget {
   background-image: url("images/max.gif");
 }
 
-.hidden {
+div.minimised > table {
   display: none;
 }
 

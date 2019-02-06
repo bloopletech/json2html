@@ -71,7 +71,10 @@ function transformObject(val, parent, level) {
   };
 }
 
+var renderCount = 0;
+
 function render(val) {
+  renderCount = 0;
   if(val.type == "array") return renderArray(val);
   if(val.type == "object") return renderObject(val);
   return "<span class='" + val.type + "'>" + escapeHTML(val.value) + "</span>";
@@ -79,9 +82,10 @@ function render(val) {
 
 function renderArray(array) {
   //arrayCount++;
+  renderCount++;
   if(!array.tuples.length) return "(empty <span class='titled' title='" + array.breadcrumbs + "'>Array</span>)";
 
-  var out = "<div class='array' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + array.breadcrumbs + "'>Array</span></h3>";
+  var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + array.breadcrumbs + "'>Array</span></h3>";
   out += "<table><tr><th>Index</th><th>Value</th></tr>";
 
   for(var i = 0; i < array.tuples.length; i++) {
@@ -106,9 +110,10 @@ function renderArray(array) {
 }
 
 function renderObject(object) {
+  renderCount++;
   if(!object.tuples.length) return "(empty <span class='titled' title='" + object.breadcrumbs + "'>Object</span>)";
 
-  var out = "<div class='object' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + object.breadcrumbs + "'>Object</span></h3>";
+  var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + object.breadcrumbs + "'>Object</span></h3>";
   out += "<table><tr><th>Name</th><th>Value</th></tr>";
 
   for(var i = 0; i < object.tuples.length; i++) {
@@ -193,15 +198,6 @@ function showStats() {
   }
 }
 
-function toggleVisibility(widget) {
-  widget.classList.toggle("minimised");
-
-  var table = widget.parentNode.querySelector("table");
-  if(!table) return;
-
-  table.classList.toggle("hidden");
-}
-
 var currentlyFocused = null;
 function doFocus(event, ele) {
   if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
@@ -262,7 +258,7 @@ function load() {
   document.body.addEventListener("click", function(event) {
     if(event.target.matches(".widget")) {
       event.preventDefault();
-      toggleVisibility(event.target);
+      event.target.parentNode.classList.toggle("minimised");
     }
   });
 
