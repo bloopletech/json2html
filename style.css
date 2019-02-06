@@ -38,6 +38,7 @@ textarea {
 }
 
 input[type="button"], input[type="submit"] {
+  -webkit-appearance: button;
   font-size: large;
 }
 
