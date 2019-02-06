@@ -8,6 +8,7 @@ function escapeHTML(unsafe) {
    .replace(/'/g, "&#039;");
 }
 
+var renderCount = 0;
 var elementCount = 0;
 var arrayCount = 0;
 var objectCount = 0;
@@ -42,6 +43,8 @@ function parse(str) {
 }
 
 function transform(val, parent, level) {
+  if(level > nestingLevel) nestingLevel = level;
+
   var type = typeof(val);
 
   if(val == null) return { type: "void", value: "(null)" };
@@ -71,17 +74,21 @@ function transformObject(val, parent, level) {
   };
 }
 
-var renderCount = 0;
-
 function render(val) {
+  elementCount = 0;
+  arrayCount = 0;
+  objectCount = 0;
   renderCount = 0;
+
   if(val.type == "array") return renderArray(val);
   if(val.type == "object") return renderObject(val);
+  elementCount++;
   return "<span class='" + val.type + "'>" + escapeHTML(val.value) + "</span>";
 }
 
 function renderArray(array) {
-  //arrayCount++;
+  elementCount++;
+  arrayCount++;
   renderCount++;
   if(!array.tuples.length) return "(empty <span class='titled' title='" + array.breadcrumbs + "'>Array</span>)";
 
@@ -94,6 +101,7 @@ function renderArray(array) {
     out += "<td class='" + tuple.type + "'>";
     
     if(tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void") {
+      elementCount++;
       out += escapeHTML(tuple.value);
     }
     else if(tuple.type == "array") {
@@ -110,6 +118,8 @@ function renderArray(array) {
 }
 
 function renderObject(object) {
+  elementCount++;
+  objectCount++;
   renderCount++;
   if(!object.tuples.length) return "(empty <span class='titled' title='" + object.breadcrumbs + "'>Object</span>)";
 
@@ -122,6 +132,7 @@ function renderObject(object) {
     out += "<td class='" + tuple.type + "'>";
     
     if(tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void") {
+      elementCount++;
       out += escapeHTML(tuple.value);
     }
     else if(tuple.type == "array") {
@@ -138,12 +149,9 @@ function renderObject(object) {
 }
 
 function json2html(str) {
-  elementCount = 0;
-  arrayCount = 0;
-  objectCount = 0;
-
   var tree = parse(str);
   if(!tree) return;
+  nestingLevel = 0;
   var transformedTree = transform(tree, "", 1);
   var result = render(transformedTree);
   $("#output").innerHTML = result;
