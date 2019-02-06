@@ -24,98 +24,161 @@ function doStats() {
   return out;
 }
 
-function parseValue(val, parent, level) {
-  elementCount++;
-  if(parent == null) parent = "";
-  if(level == null) level = 1;
-
-  if(typeof(val) == "object") {
-    if(level > nestingLevel) nestingLevel = level;
-    if(val instanceof Array) return parseArray(val, parent, level);
-    return parseObject(val, parent, level);
-  }
-  else {
-    if(typeof(val) == "string") return "<span class='string'>" + escapeHTML(val).replace(/\n/g, "<br>") + "</span>";
-    else if(typeof(val) == "number") return "<span class='number'>" + val + "</span>";
-    else if(typeof(val) == "boolean") return "<span class='boolean'>" + val + "</span>";
-    else return "<span class='void'>(null)</span>";
-  }
-}
-
-function parseArray(val, parent, level) {
-  arrayCount++;
-  parent = parent + (parent != "" ? " > " : "") + "Array (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
-
-  var out = "<div class='array' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Array</span></h3>\n";
-
-  if(val.length > 0) {
-    out += "<table>\n<tr><th>Index</th><th>Value</th></tr>\n";
-
-    for(prop in val) {
-      if(typeof(val[prop]) == "function") continue;
-      out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
-    }
-
-    out += "</table>\n";
-  }
-  else {
-    return "(empty <span class='titled' title='" + parent + "'>Array</span>)\n";
-  }
-
-  out += "</div>\n";
-  return out;
-}
-
-function parseObject(val, parent, level) {
-  objectCount++;
-  i = 0;
-  for(prop in val) {
-    if(typeof(val[prop]) != "function") i++;
-  }
-
-  parent = parent + (parent != "" ? " > " : "") + "Object (" + i + " item" + (i != 1 ? "s)" : ")");
-
-  var out = "<div class='object' onmouseover='doFocus(event, this);'>\n<div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div>\n<h3><span class='titled' title='" + parent + "'>Object</span></h3>\n";
-
-  if(i > 0) {
-    out += "<table>\n<tr><th>Name</th><th>Value</th></tr>\n";
-    for(prop in val) {
-      if(typeof(val[prop]) == "function") continue;
-      out += "<tr><td>" + escapeHTML(prop) + "</td><td>" + parseValue(val[prop], parent, level + 1) + "</td></tr>\n";
-    }
-
-    out += "</table><div class='clear'></div>\n";
-  }
-  else {
-    return "(empty <span class='titled' title='" + parent + "'>Object</span>)\n";
-  }
-
-  out += "</div>\n";
-  return out;
-}
-
 function parse(str) {
-  elementCount = 0;
-  arrayCount = 0;
-  objectCount = 0;
-
-  var obj = null;
   try {
-    obj = JSON.parse(str);
+    return JSON.parse(str);
   }
   catch(e) {
     if(e instanceof SyntaxError) {
       alert("There was a syntax error in your JSON string.\n" + e.message + "\nPlease check your syntax and try again.");
-      $("#text").focus();
-      return;
+    }
+    else {
+      alert("There was an unknown error. Perhaps the JSON string contained a deep level of nesting.");
     }
 
-    alert("There was an unknown error. Perhaps the JSON string contained a deep level of nesting.");
     $("#text").focus();
-    return
+    return;
+  }
+}
+
+function transform(val, parent, level) {
+  var type = typeof(val);
+
+  if(type == "object") {
+    if(val instanceof Array) return transformArray(val, parent, level);
+    return transformObject(val, parent, level);
   }
 
-  return parseValue(obj, null, null);
+  if(type == "string") return { type: "string", value: val };
+  if(type == "number") return { type: "number", value: val.toString() };
+  if(type == "boolean") return { type: "boolean", value: val.toString() };
+  return { type: "void", value: "(null)" };
+}
+
+function transformArray(val, parent, level) {
+  var parent = parent + (parent != "" ? " > " : "") + "Array (" + val.length + " item" + (val.length != 1 ? "s)" : ")");
+
+  var tuples = [];
+  for(prop in val) {
+    if(typeof(val[prop]) == "function") continue;
+
+    var tuple = transform(val[prop], parent, level + 1);
+    tuple.name = prop;
+    tuples.push(tuple);
+  }
+
+  return {
+    type: "array",
+    breadcrumbs: parent,
+    tuples: tuples
+  };
+}
+
+function transformObject(val, parent, level) {
+  var i = 0;
+  for(prop in val) {
+    if(typeof(val[prop]) != "function") i++;
+  }
+
+  var parent = parent + (parent != "" ? " > " : "") + "Object (" + i + " item" + (i != 1 ? "s)" : ")");
+
+  var tuples = [];
+  for(prop in val) {
+    if(typeof(val[prop]) == "function") continue;
+
+    var tuple = transform(val[prop], parent, level + 1);
+    tuple.name = prop;
+    tuples.push(tuple);
+  }
+
+  return {
+    type: "object",
+    breadcrumbs: parent,
+    tuples: tuples
+  };
+}
+
+function render(val) {
+  if(val.type == "array") return renderArray(val);
+  if(val.type == "object") return renderObject(val);
+  return "<span class='" + val.type + "'>" + escapeHTML(val.value) + "</span>";
+}
+
+function renderArray(array) {
+  //arrayCount++;
+  if(!array.tuples.length) return "(empty <span class='titled' title='" + array.breadcrumbs + "'>Array</span>)";
+
+  var out = "<div class='array' onmouseover='doFocus(event, this);'><div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div><h3><span class='titled' title='" + array.breadcrumbs + "'>Array</span></h3>";
+  out += "<table><tr><th>Index</th><th>Value</th></tr>";
+
+  for(var i = 0; i < array.tuples.length; i++) {
+    var tuple = array.tuples[i];
+    out += "<tr><td>" + escapeHTML(tuple.name) + "</td>";
+    out += "<td class='" + tuple.type + "'>";
+    
+    if(tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void") {
+      out += escapeHTML(tuple.value);
+    }
+    else if(tuple.type == "array") {
+      out += renderArray(tuple);
+    }
+    else if(tuple.type == "object") {
+      out += renderObject(tuple);
+    }
+    out += "</td></tr>";
+  }
+
+  out += "</table></div>";
+  return out;
+}
+
+function renderObject(object) {
+  if(!object.tuples.length) return "(empty <span class='titled' title='" + object.breadcrumbs + "'>Object</span>)";
+
+  var out = "<div class='object' onmouseover='doFocus(event, this);'><div class='widgets'><img src='images/min.gif' onclick='hideChild(this);' /></div><h3><span class='titled' title='" + object.breadcrumbs + "'>Object</span></h3>";
+  out += "<table><tr><th>Name</th><th>Value</th></tr>";
+
+  for(var i = 0; i < object.tuples.length; i++) {
+    var tuple = object.tuples[i];
+    out += "<tr><td>" + escapeHTML(tuple.name) + "</td>";
+    out += "<td class='" + tuple.type + "'>";
+    
+    if(tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void") {
+      out += escapeHTML(tuple.value);
+    }
+    else if(tuple.type == "array") {
+      out += renderArray(tuple);
+    }
+    else if(tuple.type == "object") {
+      out += renderObject(tuple);
+    }
+    out += "</td></tr>";
+  }
+
+  out += "</table></div>";
+  return out;
+}
+
+function json2html(str) {
+  elementCount = 0;
+  arrayCount = 0;
+  objectCount = 0;
+
+  var tree = parse(str);
+  if(!tree) return;
+  var transformedTree = transform(tree, "", 1);
+  var result = render(transformedTree);
+  $("#output").innerHTML = result;
+
+  $("#stats").innerHTML = doStats();
+  $("#stats").className = "";
+
+  //doTooltips();
+
+  $("#submit").value = "json 2 html";
+  $("#submit").disabled = null;
+
+  $("#output").scrollIntoView();
 }
 
 function doParse() {
@@ -131,43 +194,17 @@ function doParse2() {
     getURL(value);
   }
   else {
-    var result = parse(value, null);
-    if(result != null) $("#output").innerHTML = result;
-
-    $("#stats").innerHTML = doStats();
-    $("#stats").className = "";
-
-    doTooltips();
-
-    $("#submit").value = "json 2 html";
-    $("#submit").disabled = null;
-
-    location.href = "#_output";
+    json2html(value);
   }
 }
-
-var http = null;
 
 function getURL(str) {
+  var http = new XMLHttpRequest();
   http.open("get", "get.php?url=" + str);
-  http.onreadystatechange = gotURL;
+  http.onreadystatechange = function() {
+    if(http.readyState == 4) json2html(http.responseText);
+  };
   http.send(null);
-}
-
-function gotURL() {
-  if(http.readyState == 4) {
-    var result = parse(http.responseText, null);
-    if(result != null) $("#output").innerHTML = result;
-
-    $("#stats").innerHTML = doStats();
-
-    doTooltips();
-
-    $("#submit").value = "json 2 html";
-    $("#submit").disabled = null;
-
-    location.href = "#_output";
-  }
 }
 
 function showStats() {
@@ -242,7 +279,7 @@ function doHelp() {
 
   $("#help-content").style.left = ((bodySize.width / 2) - ($("#help-content").offsetWidth / 2)) + "px";
   $("#help-content").style.top = ((bodySize.height / 2) - ($("#help-content").offsetHeight / 2)) + "px";
-  location.href = "#_top";
+  $("body").scrollIntoView();
 }
 
 function hideHelp() {
@@ -260,16 +297,6 @@ function load() {
   window.$ = document.querySelector.bind(document);
 
   enableTooltips();
-
-  try {
-    http = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  catch(e) {
-    try {
-      http = new XMLHttpRequest();
-    }
-    catch(e) {}
-  }
 
   bodySize = Client.viewportSize();
 

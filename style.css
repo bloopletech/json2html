@@ -102,11 +102,6 @@ form > .mast {
   padding: 3px;
 }
 
-.noa {
-  line-height: 0;
-  font-size: 0;
-}
-
 .titled {
   border-bottom: 1px dashed #000000;
 }
@@ -137,8 +132,7 @@ h3 {
   font-size: 105%;
 }
 
-.object, .array {
-  display: inline-block;
+div.object, div.array {
   position: relative;
   padding: 1.5em;
   border: 1px solid #000000;
@@ -167,6 +161,7 @@ td > div.object, td > div.array {
 .string {
   color: #000000;
   word-break: break-word;
+  white-space: pre-wrap;
 }
 
 .number {
