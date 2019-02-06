@@ -133,8 +133,10 @@ h3 {
 }
 
 div.object, div.array {
+  display: inline-block;
   position: relative;
   padding: 1.5em;
+  min-width: 5em;
   border: 1px solid #000000;
 }
 
@@ -176,12 +178,21 @@ td > div.object, td > div.array {
   color: #0000ff;
 }
 
-.widgets {
+.widget {
   position: absolute;
   top: 1em;
   right: 1.5em;
   width: 9px;
   height: 20px;
+  background-image: url("images/min.gif");
+}
+
+.widget.minimised {
+  background-image: url("images/max.gif");
+}
+
+.hidden {
+  display: none;
 }
 
 .statson {
