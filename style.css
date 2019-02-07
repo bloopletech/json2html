@@ -31,7 +31,7 @@ form {
 textarea {
   box-sizing: border-box;
   width: 100%;
-  margin-bottom: 0.5em;
+  margin-bottom: 5px;
   padding: 1px;
   border: 1px solid purple;
   font-family: monospace;
@@ -52,7 +52,7 @@ table {
 }
 
 table th, table td {
-  padding: 0.2em 0.3em;
+  padding: 3px 5px;
   border: 1px solid #000000;
   vertical-align: top;
 }
@@ -75,26 +75,22 @@ table th, table td {
   text-align: center;
 }
 
-.mast {
-  font-size: 105%;
-}
-
 .mast_first {
   margin-top: 0;
 }
 
 form > .mast {
-  font-size: 110%;
+  font-size: 18px;
 }
 
 .jsonlogo {
   float: right;
-  margin-left: 1em;
+  margin-left: 16px;
 }
 
 .mainbody {
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .footer {
@@ -107,16 +103,16 @@ form > .mast {
 }
 
 #output {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 #help-content {
   display: none;
-  width: 40%;
+  max-width: 600px;
   position: absolute;
   z-index: 99;
-  padding: 1em;
+  padding: 16px;
   border: 1px solid #000000;
   background-color: #ffffee;
 }
@@ -127,13 +123,13 @@ form > .mast {
 }
 
 h3 {
-  margin-top: -0.3em;
-  margin-bottom: 0.5em;
-  font-size: 105%;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
 div.object, div.array {
-  padding: 1.5em;
+  padding: 24px;
   min-width: 5em;
   border: 1px solid #000000;
 }
@@ -144,7 +140,7 @@ div.object, div.array {
 }
 
 div.object {
-  margin: 0.3em;
+  margin: 5px;
   background-color: #eeeeee;
 }
 
@@ -153,7 +149,7 @@ div.object > table {
 }
 
 div.array {
-  margin: 0.3em;
+  margin: 5px;
   background-color: #eeeeff;
 }
 
@@ -197,7 +193,7 @@ div.minimised > table {
 }
 
 .statson {
-  padding: 0.5em;
+  padding: 10px;
   background-color: #ffffff;
   border: 1px solid #a0a0a0;
 }
