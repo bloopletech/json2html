@@ -131,7 +131,7 @@ h3 {
 div.object, div.array {
   display: table-cell;
   padding: 15px;
-  min-width: 5em;
+  min-width: 100px;
 }
 
 div.name {
@@ -186,9 +186,7 @@ td.object, td.array {
 }
 
 .widget {
-  position: absolute;
-  top: 1em;
-  right: 1.5em;
+  float: right;
   width: 9px;
   height: 20px;
   background-image: url("images/min.gif");
