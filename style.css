@@ -133,31 +133,32 @@ h3 {
 }
 
 div.object, div.array {
-  display: inline-block;
-  position: relative;
   padding: 1.5em;
   min-width: 5em;
   border: 1px solid #000000;
 }
 
-.object {
+#output > div {
+  display: inline-block;
+  margin: 0;
+}
+
+div.object {
+  margin: 0.3em;
   background-color: #eeeeee;
 }
 
-.object > table {
+div.object > table {
   background-color: #ffffff;
 }
 
-.array {
+div.array {
+  margin: 0.3em;
   background-color: #eeeeff;
 }
 
-.array > table {
+div.array > table {
   background-color: #ffffee;
-}
-
-td > div.object, td > div.array {
-  margin: 0.3em;
 }
 
 .string {
