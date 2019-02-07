@@ -90,17 +90,10 @@ function isSimpleTuple(tuple) {
   return tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void";
 }
 
-function renderArray(array) {
-  elementCount++;
-  arrayCount++;
-  renderCount++;
-  if(!array.tuples.length) return "(empty <span class='titled' title='" + array.breadcrumbs + "'>Array</span>)";
+function renderTuples(tuples) {
+  var out = "";
 
-  var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + array.breadcrumbs + "'>Array</span></h3>";
-  out += "<table><tr><th>Index</th><th>Value</th></tr>";
-
-  for(var i = 0; i < array.tuples.length; i++) {
-    var tuple = array.tuples[i];
+  tuples.forEach(function(tuple) {
     out += "<tr><td><div class='name'>" + escapeHTML(tuple.name) + "</div></td>";
     out += "<td class='" + tuple.type + "'" + (isSimpleTuple(tuple) ? " title='" + tuple.typeLabel + "'" : "") + ">";
     
@@ -115,8 +108,20 @@ function renderArray(array) {
       out += renderObject(tuple);
     }
     out += "</td></tr>";
-  }
+  });
 
+  return out;
+}
+
+function renderArray(array) {
+  elementCount++;
+  arrayCount++;
+  renderCount++;
+  if(!array.tuples.length) return "(empty <span class='titled' title='" + array.breadcrumbs + "'>Array</span>)";
+
+  var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + array.breadcrumbs + "'>Array</span></h3>";
+  out += "<table><tr><th>Index</th><th>Value</th></tr>";
+  out += renderTuples(array.tuples);
   out += "</table></div>";
   return out;
 }
@@ -129,25 +134,7 @@ function renderObject(object) {
 
   var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + object.breadcrumbs + "'>Object</span></h3>";
   out += "<table><tr><th>Name</th><th>Value</th></tr>";
-
-  for(var i = 0; i < object.tuples.length; i++) {
-    var tuple = object.tuples[i];
-    out += "<tr><td><div class='name'>" + escapeHTML(tuple.name) + "</div></td>";
-    out += "<td class='" + tuple.type + "'" + (isSimpleTuple(tuple) ? " title='" + tuple.typeLabel + "'" : "") + ">";
-    
-    if(isSimpleTuple(tuple)) {
-      elementCount++;
-      out += escapeHTML(tuple.value);
-    }
-    else if(tuple.type == "array") {
-      out += renderArray(tuple);
-    }
-    else if(tuple.type == "object") {
-      out += renderObject(tuple);
-    }
-    out += "</td></tr>";
-  }
-
+  out += renderTuples(object.tuples);
   out += "</table></div>";
   return out;
 }
