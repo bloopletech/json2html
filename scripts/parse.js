@@ -47,10 +47,10 @@ function transform(val, parent, level) {
 
   var type = typeof(val);
 
-  if(val == null) return { type: "void", value: "(null)" };
-  if(type == "string") return { type: "string", value: val };
-  if(type == "number") return { type: "number", value: val.toString() };
-  if(type == "boolean") return { type: "boolean", value: val.toString() };
+  if(val == null) return { type: "void", typeLabel: "Void", value: "(null)" };
+  if(type == "string") return { type: "string", typeLabel: "String", value: val };
+  if(type == "number") return { type: "number", typeLabel: "Number", value: val.toString() };
+  if(type == "boolean") return { type: "boolean", typeLabel: "Boolean", value: val.toString() };
   return transformObject(val, parent, level);
 }
 
@@ -86,6 +86,10 @@ function render(val) {
   return "<span class='" + val.type + "'>" + escapeHTML(val.value) + "</span>";
 }
 
+function isSimpleTuple(tuple) {
+  return tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void";
+}
+
 function renderArray(array) {
   elementCount++;
   arrayCount++;
@@ -98,9 +102,9 @@ function renderArray(array) {
   for(var i = 0; i < array.tuples.length; i++) {
     var tuple = array.tuples[i];
     out += "<tr><td>" + escapeHTML(tuple.name) + "</td>";
-    out += "<td class='" + tuple.type + "'>";
+    out += "<td class='" + tuple.type + "'" + (isSimpleTuple(tuple) ? " title='" + tuple.typeLabel + "'" : "") + ">";
     
-    if(tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void") {
+    if(isSimpleTuple(tuple)) {
       elementCount++;
       out += escapeHTML(tuple.value);
     }
@@ -129,9 +133,9 @@ function renderObject(object) {
   for(var i = 0; i < object.tuples.length; i++) {
     var tuple = object.tuples[i];
     out += "<tr><td>" + escapeHTML(tuple.name) + "</td>";
-    out += "<td class='" + tuple.type + "'>";
+    out += "<td class='" + tuple.type + "'" + (isSimpleTuple(tuple) ? " title='" + tuple.typeLabel + "'" : "") + ">";
     
-    if(tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void") {
+    if(isSimpleTuple(tuple)) {
       elementCount++;
       out += escapeHTML(tuple.value);
     }
