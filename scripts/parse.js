@@ -101,7 +101,7 @@ function renderArray(array) {
 
   for(var i = 0; i < array.tuples.length; i++) {
     var tuple = array.tuples[i];
-    out += "<tr><td>" + escapeHTML(tuple.name) + "</td>";
+    out += "<tr><td><div class='name'>" + escapeHTML(tuple.name) + "</div></td>";
     out += "<td class='" + tuple.type + "'" + (isSimpleTuple(tuple) ? " title='" + tuple.typeLabel + "'" : "") + ">";
     
     if(isSimpleTuple(tuple)) {
@@ -132,7 +132,7 @@ function renderObject(object) {
 
   for(var i = 0; i < object.tuples.length; i++) {
     var tuple = object.tuples[i];
-    out += "<tr><td>" + escapeHTML(tuple.name) + "</td>";
+    out += "<tr><td><div class='name'>" + escapeHTML(tuple.name) + "</div></td>";
     out += "<td class='" + tuple.type + "'" + (isSimpleTuple(tuple) ? " title='" + tuple.typeLabel + "'" : "") + ">";
     
     if(isSimpleTuple(tuple)) {
@@ -212,8 +212,8 @@ function showStats() {
 
 var currentlyFocused = null;
 function doFocus(event, ele) {
-  if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
-  ele.style.border = "1px solid #ffa000";
+  //if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
+  //ele.style.border = "1px solid #ffa000";
 
   currentlyFocused = ele;
 
@@ -223,7 +223,7 @@ function doFocus(event, ele) {
 }
 
 function stopFocus() {
-  if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
+  //if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
 }
 
 //code from Painfully Obvious.

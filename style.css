@@ -129,18 +129,17 @@ h3 {
 }
 
 div.object, div.array {
-  padding: 24px;
+  display: table-cell;
+  padding: 15px;
   min-width: 5em;
-  border: 1px solid #000000;
 }
 
-#output > div {
-  display: inline-block;
-  margin: 0;
+div.name {
+  position: sticky;
+  top: 0;
 }
 
 div.object {
-  margin: 5px;
   background-color: #eeeeee;
 }
 
@@ -148,13 +147,24 @@ div.object > table {
   background-color: #ffffff;
 }
 
+div.object > table > tr > td > div.name {
+  background-color: #ffffff;
+}
+
 div.array {
-  margin: 5px;
   background-color: #eeeeff;
 }
 
 div.array > table {
   background-color: #ffffee;
+}
+
+div.array > table > tr > td > div.name {
+  background-color: #ffffee;
+}
+
+td.object, td.array {
+  padding: 5px;
 }
 
 .string {
