@@ -199,8 +199,8 @@ function showStats() {
 
 var currentlyFocused = null;
 function doFocus(event, ele) {
-  //if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
-  //ele.style.border = "1px solid #ffa000";
+  if(currentlyFocused != null) currentlyFocused.style.outline = "none";
+  ele.style.outline = "1px solid #ffa000";
 
   currentlyFocused = ele;
 
@@ -210,7 +210,7 @@ function doFocus(event, ele) {
 }
 
 function stopFocus() {
-  //if(currentlyFocused != null) currentlyFocused.style.border = "1px solid #000000";
+  if(currentlyFocused != null) currentlyFocused.style.outline = "none";
 }
 
 //code from Painfully Obvious.
