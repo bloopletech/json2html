@@ -187,13 +187,15 @@ td.object, td.array {
 
 .widget {
   float: right;
-  width: 9px;
-  height: 20px;
-  background-image: url("images/min.gif");
+  line-height: 25px;
 }
 
-div.minimised > .widget {
-  background-image: url("images/max.gif");
+.widget:before {
+  content: "▲";
+}
+
+div.minimised > .widget:before {
+  content: "▼";
 }
 
 div.minimised > table {
