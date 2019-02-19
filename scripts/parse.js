@@ -1,3 +1,5 @@
+"use strict";
+
 function escapeHTML(unsafe) {
   if(unsafe == null) return "";
   return unsafe.toString()
@@ -12,7 +14,7 @@ var renderCount = 0;
 var elementCount = 0;
 var arrayCount = 0;
 var objectCount = 0;
-var nestingLevel = 0;
+var tree = null;
 
 function doStats() {
   var out = "<input type='button' id='statst' onclick='showStats();' value='Show Statistics' style='float: right;' />\n"
@@ -20,7 +22,7 @@ function doStats() {
     + "<div id='statscon'>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>" + arrayCount + "</td>\n</tr>\n"
     + "<tr>\n<td>Number of Objects:</td>\n<td>" + objectCount + "</td>\n</tr>\n"
      + "<tr>\n<td>Total number of all elements:</td>\n<td>" + elementCount + "</td>\n</tr>\n"
-      + "<tr>\n<td>Nesting depth:</td>\n<td>" + nestingLevel + "</td>\n</tr>\n"
+      + "<tr>\n<td>Nesting depth:</td>\n<td>" + tree.nestingLevel + "</td>\n</tr>\n"
       + "</table>\n</div>\n</div>\n";
   return out;
 }
@@ -42,37 +44,6 @@ function parse(str) {
   }
 }
 
-function transform(val, parent, level) {
-  if(level > nestingLevel) nestingLevel = level;
-
-  var type = typeof(val);
-
-  if(val == null) return { type: "void", typeLabel: "Void", value: "(null)" };
-  if(type == "string") return { type: "string", typeLabel: "String", value: val };
-  if(type == "number") return { type: "number", typeLabel: "Number", value: val.toString() };
-  if(type == "boolean") return { type: "boolean", typeLabel: "Boolean", value: val.toString() };
-  return transformObject(val, parent, level);
-}
-
-function transformObject(val, parent, level) {
-  var type = (val instanceof Array) ? "array" : "object";
-
-  var props = Object.keys(val);
-
-  var parent = parent + (parent != "" ? " > " : "") + (type == "array" ? "Array" : "Object") + " (" + props.length + " item" + (props.length != 1 ? "s)" : ")");
-
-  var tuples = props.map(function(prop) {
-    var tuple = transform(val[prop], parent, level + 1);
-    tuple.name = prop;
-    return tuple;
-  });
-
-  return {
-    type: type,
-    breadcrumbs: parent,
-    tuples: tuples
-  };
-}
 
 function render(val) {
   elementCount = 0;
@@ -83,29 +54,26 @@ function render(val) {
   if(val.type == "array") return renderArray(val);
   if(val.type == "object") return renderObject(val);
   elementCount++;
-  return "<span class='" + val.type + "'>" + escapeHTML(val.value) + "</span>";
-}
-
-function isSimpleTuple(tuple) {
-  return tuple.type == "string" || tuple.type == "number" || tuple.type == "boolean" || tuple.type == "void";
+  return "<span class='" + val.type + "' title='" + value.typeLabel + "'>" + escapeHTML(val.value) + "</span>";
 }
 
 function renderTuples(tuples) {
   var out = "";
 
   tuples.forEach(function(tuple) {
-    out += "<tr><td><div class='name'>" + escapeHTML(tuple.name) + "</div></td>";
-    out += "<td class='" + tuple.type + "'" + (isSimpleTuple(tuple) ? " title='" + tuple.typeLabel + "'" : "") + ">";
+    var value = tuple.value;
+    out += "<tr data-index='" + value.index + "'><td>" + escapeHTML(tuple.name) + "</td>";
+    out += "<td class='" + value.type + "'" + (value.simple ? " title='" + value.typeLabel + "'" : "") + ">";
     
-    if(isSimpleTuple(tuple)) {
+    if(value.simple) {
       elementCount++;
-      out += escapeHTML(tuple.value);
+      out += escapeHTML(value.value);
     }
-    else if(tuple.type == "array") {
-      out += renderArray(tuple);
+    else if(value.type == "array") {
+      out += renderArray(value);
     }
-    else if(tuple.type == "object") {
-      out += renderObject(tuple);
+    else if(value.type == "object") {
+      out += renderObject(value);
     }
     out += "</td></tr>";
   });
@@ -117,9 +85,9 @@ function renderArray(array) {
   elementCount++;
   arrayCount++;
   renderCount++;
-  if(!array.tuples.length) return "(empty <span class='titled' title='" + array.breadcrumbs + "'>Array</span>)";
+  if(!array.tuples.length) return "<div data-index='" + array.index + "'>(empty Array)</div>";
 
-  var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + array.breadcrumbs + "'>Array</span></h3>";
+  var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + array.index + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3>Array</h3>";
   out += "<table><tr><th>Index</th><th>Value</th></tr>";
   out += renderTuples(array.tuples);
   out += "</table></div>";
@@ -130,9 +98,9 @@ function renderObject(object) {
   elementCount++;
   objectCount++;
   renderCount++;
-  if(!object.tuples.length) return "(empty <span class='titled' title='" + object.breadcrumbs + "'>Object</span>)";
+  if(!object.tuples.length) return "<div data-index='" + object.index + "'>(empty Object)</div>";
 
-  var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3><span class='titled' title='" + object.breadcrumbs + "'>Object</span></h3>";
+  var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + object.index + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3>Object</h3>";
   out += "<table><tr><th>Name</th><th>Value</th></tr>";
   out += renderTuples(object.tuples);
   out += "</table></div>";
@@ -140,17 +108,15 @@ function renderObject(object) {
 }
 
 function json2html(str) {
-  var tree = parse(str);
-  if(!tree) return;
-  nestingLevel = 0;
-  var transformedTree = transform(tree, "", 1);
-  var result = render(transformedTree);
+  var parseTree = parse(str);
+  if(!parseTree) return;
+  tree = transformTree(parseTree);
+  var result = render(tree.root);
+
   $("#output").innerHTML = result;
 
   $("#stats").innerHTML = doStats();
   $("#stats").className = "";
-
-  //doTooltips();
 
   $("#submit").value = "json 2 html";
   $("#submit").disabled = null;
@@ -197,6 +163,48 @@ function showStats() {
   }
 }
 
+function itemPath(item) {
+  var path = ["<root>"];
+
+  if(item.address) {
+    item.address.full().forEach(function(address) {
+      path.push(address.parent.type == "array" ? "[" + address.prop + "]" : "." + address.prop);
+    });
+  }
+
+  return path.join("");
+}
+
+function itemTrailLabel(item) {
+  return item.typeLabel + " (" + item.tuples.length + " item" + (item.tuples.length != 1 ? "s)" : ")");
+}
+
+function itemTrail(item) {
+  var trail = ["Root"];
+
+  if(item.address) {
+    item.address.full().forEach(function(address) {
+      trail.push(itemTrailLabel(address.parent));
+    });
+  }
+
+  if(!item.simple) trail.push(itemTrailLabel(item));
+
+  return trail.join(" > ");
+}
+
+var currentFocusElement = null;
+function focusObject(element) {
+  if(element == currentFocusElement) return;
+
+  currentFocusElement = element;
+
+  var item = tree.fromIndex(parseInt(element.dataset.index));
+
+  $("#focus-path").textContent = itemPath(item);
+  $("#focus-trail").textContent = itemTrail(item);
+}
+
 var currentlyFocused = null;
 function doFocus(event, ele) {
   if(currentlyFocused != null) currentlyFocused.style.outline = "none";
@@ -231,7 +239,7 @@ var Client = {
 
 function doHelp() {
   $("#help-content").style.display = "block";
-  bodySize = Client.viewportSize();
+  var bodySize = Client.viewportSize();
 
   $("#backdrop").style.display = "block";
 
@@ -255,15 +263,25 @@ function load() {
   window.$ = document.querySelector.bind(document);
 
   document.body.addEventListener("click", function(event) {
+    var tr = event.target.closest("div[data-index], tr[data-index]");
+    if(tr) {
+      event.preventDefault();
+      focusObject(tr);
+    }
+
     if(event.target.matches(".widget")) {
       event.preventDefault();
       event.target.parentNode.classList.toggle("minimised");
     }
   });
 
-  enableTooltips();
-
-  bodySize = Client.viewportSize();
+  document.body.addEventListener("mousemove", function(event) {
+    var tr = event.target.closest("div[data-index], tr[data-index]");
+    if(tr) {
+      event.preventDefault();
+      focusObject(tr);
+    }
+  });
 
   if($("#text").focus) $("#text").focus();
 }

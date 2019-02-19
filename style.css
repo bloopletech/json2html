@@ -95,6 +95,7 @@ form > .mast {
 
 .footer {
   background-color: #ffffaa;
+  margin-bottom: 64px;
   padding: 3px;
 }
 
@@ -134,11 +135,6 @@ div.object, div.array {
   min-width: 100px;
 }
 
-div.name {
-  position: sticky;
-  top: 0;
-}
-
 div.object {
   background-color: #eeeeee;
 }
@@ -147,19 +143,11 @@ div.object > table {
   background-color: #ffffff;
 }
 
-div.object > table > tr > td > div.name {
-  background-color: #ffffff;
-}
-
 div.array {
   background-color: #eeeeff;
 }
 
 div.array > table {
-  background-color: #ffffee;
-}
-
-div.array > table > tr > td > div.name {
   background-color: #ffffee;
 }
 
@@ -200,6 +188,15 @@ div.minimised > .widget:before {
 
 div.minimised > table {
   display: none;
+}
+
+#focus {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #ffffcc;
+  padding: 10px;
 }
 
 .statson {
