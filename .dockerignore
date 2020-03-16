@@ -1,0 +1,5 @@
+.git/
+
+Dockerfile
+build.bat
+build.sh

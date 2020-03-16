@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <title>JSON 2 HTML</title>
+    <meta charset="utf-8">
+    <link href="style.css" rel="StyleSheet" type="text/css" />
+    <script src="scripts/tree.js" type="text/javascript"></script>
+    <script src="scripts/parse.js" type="text/javascript"></script>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  </head>
+  <body id="body" onmouseover="stopFocus();">
+    <div id="header">
+      <img alt="json 2 html" src="images/logo.png" />
+    </div>
+    <div class="mainbody">
+      <div id="backdrop"></div>
+      <div id="help-content">
+        <h3>json</h3>
+        <p>
+          <img alt="JSON logo" class="jsonlogo" src="images/json.gif" />
+          <i>Quoting from the home page of
+            <a href="http://www.json.org/">JSON</a>
+          </i><br>
+          JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate.</p>
+        <h3>syntax highlighting:</h3>
+        <p>
+          <span class="string">Colour for text and null values.</span><br>
+          <span class="number">Colour for numbers.</span><br>
+          <span class="boolean">Colour for true and false values.</span><br>
+          <span class="void">Colour for void values.</span><br>
+          <img class="ex" src="images/object.png" />
+          Background for Objects.<br>
+          <img class="ex" src="images/array.png" />
+          Background for Arrays.<br>
+          <img class="ex" src="images/objectt.png" />
+          Background for Object name/value pair tables.<br>
+          <img class="ex" src="images/arrayt.png" />
+          Background for Array value tables.</p>
+        <h3>note</h3>
+        <p>
+          Individual 'words' that are extremely long may be broken into two or more lines to conserve horizontal space.
+        </p>
+        <p class="closep"><input onclick="hideHelp();" type="button" value="close" /></p>
+      </div>
+      <form onsubmit="doParse(); return false;">
+        <p class="mast mast_first">
+          This page offers an easy way to visualize a string of JSON text.
+          Put some JSON into the text area, and this page will instantly display the text as a set of nested boxes,
+          corresponding to the objects, arrays and values in the JSON string.<br>
+          You can also paste a URL into the textarea, and the JSON string will be loaded from the URL.</p>
+        <p class="mast">
+          JSON 2 HTML is open source and released under the MIT license -
+          <a href="http://github.com/bloopletech/json2html/tree/master">get the source on github</a>. Patches / improvements are welcomed!
+        </p>
+        <textarea id="text" rows="12" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+        <div class="clear"></div>
+        <div class="lfloat"><input id="submit" onclick="doParse(); return false;" type="submit" value="json 2 html" />
+          <input id="reset" onclick="clearPage();" type="button" value="reset" /></div>
+        <div class="rfloat"><input id="help" onclick="doHelp();" type="button" value="help" /></div>
+        <div class="clear"></div>
+        <hr/>
+        <div class="stats" id="stats"></div>
+        <div id="output"></div>
+      </form>
+      <div id="focus">
+        Property path: <span id="focus-path"></span><br>
+        Trail: <span id="focus-trail"></span>
+      </div>
+      <div class="footer">
+        Check out my portfolio at
+        <a href="http://i.bloople.net">i.bloople.net</a>. &copy; Brenton Fletcher. Comments? e-mail me:
+        <a href="mailto:i@bloople.net">i@bloople.net</a>.
+      </div>
+    </div>
+  </body>
+</html>
