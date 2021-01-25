@@ -108,7 +108,7 @@ window.transformTree = function(parseTree) {
   }
 
   var root = transform(parseTree, null);
-  
+
   var nestingLevel = 0;
   treeMap.forEach(function(item) {
     if(!item.address) return;
