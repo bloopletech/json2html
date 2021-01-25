@@ -87,7 +87,7 @@ function renderArray(array) {
   renderCount++;
   if(!array.tuples.length) return "<div data-index='" + array.index + "'>(empty Array)</div>";
 
-  var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + array.index + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3>Array</h3>";
+  var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + array.index + "'><div class='widget'></div><h3>Array</h3>";
   out += "<table><tr><th>Index</th><th>Value</th></tr>";
   out += renderTuples(array.tuples);
   out += "</table></div>";
@@ -100,7 +100,7 @@ function renderObject(object) {
   renderCount++;
   if(!object.tuples.length) return "<div data-index='" + object.index + "'>(empty Object)</div>";
 
-  var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + object.index + "' onmouseover='doFocus(event, this);'><div class='widget'></div><h3>Object</h3>";
+  var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + object.index + "'><div class='widget'></div><h3>Object</h3>";
   out += "<table><tr><th>Name</th><th>Value</th></tr>";
   out += renderTuples(object.tuples);
   out += "</table></div>";
@@ -205,20 +205,15 @@ function focusObject(element) {
   $("#focus-trail").textContent = itemTrail(item);
 }
 
-var currentlyFocused = null;
-function doFocus(event, ele) {
-  if(currentlyFocused != null) currentlyFocused.style.outline = "none";
-  ele.style.outline = "1px solid #ffa000";
+var currentOutlineElement = null;
+function outlineObject(element) {
+  if(element == currentOutlineElement) return;
 
-  currentlyFocused = ele;
+  if(currentOutlineElement) currentOutlineElement.style.outline = "none";
 
-  if(!event) event = window.event;
-  event.cancelBubble = true;
-  if(event.stopPropagation) event.stopPropagation();
-}
+  currentOutlineElement = element;
 
-function stopFocus() {
-  if(currentlyFocused != null) currentlyFocused.style.outline = "none";
+  if(element) element.style.outline = "1px solid #ffa000";
 }
 
 //code from Painfully Obvious.
@@ -263,15 +258,21 @@ function load() {
   window.$ = document.querySelector.bind(document);
 
   document.body.addEventListener("click", function(event) {
-    var tr = event.target.closest("div[data-index], tr[data-index]");
-    if(tr) focusObject(tr);
+    var focusable = event.target.closest("div[data-index], tr[data-index]");
+    if(focusable) focusObject(focusable);
+
+    var outlinable = event.target.closest("div[data-index]");
+    outlineObject(outlinable);
 
     if(event.target.matches(".widget")) event.target.parentNode.classList.toggle("minimised");
   });
 
   document.body.addEventListener("mousemove", function(event) {
-    var tr = event.target.closest("div[data-index], tr[data-index]");
-    if(tr) focusObject(tr);
+    var focusable = event.target.closest("div[data-index], tr[data-index]");
+    if(focusable) focusObject(focusable);
+
+    var outlinable = event.target.closest("div[data-index]");
+    outlineObject(outlinable);
   });
 
   if($("#text").focus) $("#text").focus();
