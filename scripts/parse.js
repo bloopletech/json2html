@@ -254,26 +254,24 @@ function clearPage() {
   $("#output").innerHTML = "";
 }
 
+function handleFocusOutline(event) {
+  var focusable = event.target.closest("div[data-index], tr[data-index]");
+  if(focusable) focusObject(focusable);
+
+  var outlinable = event.target.closest("div[data-index]");
+  outlineObject(outlinable);
+}
+
 function load() {
   window.$ = document.querySelector.bind(document);
 
   document.body.addEventListener("click", function(event) {
-    var focusable = event.target.closest("div[data-index], tr[data-index]");
-    if(focusable) focusObject(focusable);
-
-    var outlinable = event.target.closest("div[data-index]");
-    outlineObject(outlinable);
+    handleFocusOutline(event);
 
     if(event.target.matches(".widget")) event.target.parentNode.classList.toggle("minimised");
   });
 
-  document.body.addEventListener("mousemove", function(event) {
-    var focusable = event.target.closest("div[data-index], tr[data-index]");
-    if(focusable) focusObject(focusable);
-
-    var outlinable = event.target.closest("div[data-index]");
-    outlineObject(outlinable);
-  });
+  document.body.addEventListener("mousemove", handleFocusOutline);
 
   if($("#text").focus) $("#text").focus();
 }
