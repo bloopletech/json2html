@@ -264,23 +264,14 @@ function load() {
 
   document.body.addEventListener("click", function(event) {
     var tr = event.target.closest("div[data-index], tr[data-index]");
-    if(tr) {
-      event.preventDefault();
-      focusObject(tr);
-    }
+    if(tr) focusObject(tr);
 
-    if(event.target.matches(".widget")) {
-      event.preventDefault();
-      event.target.parentNode.classList.toggle("minimised");
-    }
+    if(event.target.matches(".widget")) event.target.parentNode.classList.toggle("minimised");
   });
 
   document.body.addEventListener("mousemove", function(event) {
     var tr = event.target.closest("div[data-index], tr[data-index]");
-    if(tr) {
-      event.preventDefault();
-      focusObject(tr);
-    }
+    if(tr) focusObject(tr);
   });
 
   if($("#text").focus) $("#text").focus();
