@@ -64,7 +64,7 @@ function renderTuples(tuples) {
     var value = tuple.value;
     out += "<tr data-index='" + value.index + "'><td>" + escapeHTML(tuple.name) + "</td>";
     out += "<td class='" + value.type + "'" + (value.simple ? " title='" + value.typeLabel + "'" : "") + ">";
-    
+
     if(value.simple) {
       elementCount++;
       out += escapeHTML(value.value);
