@@ -1,27 +1,14 @@
 "use strict";
 
-function escapeHTML(unsafe) {
-  if(unsafe == null) return "";
-  return unsafe.toString()
-   .replace(/&/g, "&amp;")
-   .replace(/</g, "&lt;")
-   .replace(/>/g, "&gt;")
-   .replace(/"/g, "&quot;")
-   .replace(/'/g, "&#039;");
-}
-
-var renderCount = 0;
-var elementCount = 0;
-var arrayCount = 0;
-var objectCount = 0;
 var tree = null;
+var result = null;
 
 function doStats() {
   var out = "<input type='button' id='statst' onclick='showStats();' value='Show Statistics' style='float: right;' />\n"
    + "<div class='clear'></div>\n"
-    + "<div id='statscon'>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>" + arrayCount + "</td>\n</tr>\n"
-    + "<tr>\n<td>Number of Objects:</td>\n<td>" + objectCount + "</td>\n</tr>\n"
-     + "<tr>\n<td>Total number of all elements:</td>\n<td>" + elementCount + "</td>\n</tr>\n"
+    + "<div id='statscon'>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>" + result.arrayCount + "</td>\n</tr>\n"
+    + "<tr>\n<td>Number of Objects:</td>\n<td>" + result.objectCount + "</td>\n</tr>\n"
+     + "<tr>\n<td>Total number of all elements:</td>\n<td>" + result.elementCount + "</td>\n</tr>\n"
       + "<tr>\n<td>Nesting depth:</td>\n<td>" + tree.nestingLevel + "</td>\n</tr>\n"
       + "</table>\n</div>\n</div>\n";
   return out;
@@ -44,76 +31,13 @@ function parse(str) {
   }
 }
 
-
-function render(val) {
-  elementCount = 0;
-  arrayCount = 0;
-  objectCount = 0;
-  renderCount = 0;
-
-  if(val.type == "array") return renderArray(val);
-  if(val.type == "object") return renderObject(val);
-  elementCount++;
-  return "<span class='" + val.type + "' title='" + value.typeLabel + "'>" + escapeHTML(val.value) + "</span>";
-}
-
-function renderTuples(tuples) {
-  var out = "";
-
-  tuples.forEach(function(tuple) {
-    var value = tuple.value;
-    out += "<tr data-index='" + value.index + "'><td>" + escapeHTML(tuple.name) + "</td>";
-    out += "<td class='" + value.type + "'" + (value.simple ? " title='" + value.typeLabel + "'" : "") + ">";
-
-    if(value.simple) {
-      elementCount++;
-      out += escapeHTML(value.value);
-    }
-    else if(value.type == "array") {
-      out += renderArray(value);
-    }
-    else if(value.type == "object") {
-      out += renderObject(value);
-    }
-    out += "</td></tr>";
-  });
-
-  return out;
-}
-
-function renderArray(array) {
-  elementCount++;
-  arrayCount++;
-  renderCount++;
-  if(!array.tuples.length) return "<div data-index='" + array.index + "'>(empty Array)</div>";
-
-  var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + array.index + "'><div class='widget'></div><h3>Array</h3>";
-  out += "<table><tr><th>Index</th><th>Value</th></tr>";
-  out += renderTuples(array.tuples);
-  out += "</table></div>";
-  return out;
-}
-
-function renderObject(object) {
-  elementCount++;
-  objectCount++;
-  renderCount++;
-  if(!object.tuples.length) return "<div data-index='" + object.index + "'>(empty Object)</div>";
-
-  var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + object.index + "'><div class='widget'></div><h3>Object</h3>";
-  out += "<table><tr><th>Name</th><th>Value</th></tr>";
-  out += renderTuples(object.tuples);
-  out += "</table></div>";
-  return out;
-}
-
 function json2html(str) {
   var parseTree = parse(str);
   if(!parseTree) return;
   tree = transformTree(parseTree);
-  var result = render(tree.root);
+  result = render(tree.root);
 
-  $("#output").innerHTML = result;
+  $("#output").innerHTML = result.output;
 
   $("#stats").innerHTML = doStats();
   $("#stats").className = "";
