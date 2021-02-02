@@ -70,6 +70,11 @@
     });
 
     document.body.addEventListener("mousemove", handleFocusOutline);
+
+    $("#reset").addEventListener("click", function(event) {
+      $("#focus-path").textContent = "";
+      $("#focus-trail").textContent = "";
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);

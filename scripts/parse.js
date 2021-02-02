@@ -119,13 +119,13 @@ function hideHelp() {
   $("#text").focus();
 }
 
-function clearPage() {
-  $("#stats").innerHTML = "";
-  $("#output").innerHTML = "";
-}
-
 function init() {
   window.$ = document.querySelector.bind(document);
+
+  $("#reset").addEventListener("click", function(event) {
+    $("#stats").innerHTML = "";
+    $("#output").innerHTML = "";
+  });
 
   if($("#text").focus) $("#text").focus();
 }
