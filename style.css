@@ -60,6 +60,10 @@ table th, table td {
   vertical-align: top;
 }
 
+table th {
+  font-weight: 500;
+}
+
 #backdrop {
   background-color: rgba(0, 0, 0, 0.6);
   display: none;
@@ -130,6 +134,7 @@ h3 {
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 18px;
+  font-weight: 500;
 }
 
 h3 code {
@@ -218,8 +223,15 @@ div.zoomed {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #ffffcc;
   padding: 10px;
+  line-height: 1.7;
+  background-color: #ffffff;
+  border-top: 1px solid #ccc;
+  box-shadow: 0 -6px 10px rgb(0 0 0 / 18%);
+}
+
+#focus label {
+  font-weight: 500;
 }
 
 .statson {
