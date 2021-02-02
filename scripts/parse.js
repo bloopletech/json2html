@@ -51,6 +51,7 @@ function json2html(str) {
   $("#output").innerHTML = result.output;
 
   statsContent = doStats(result, str);
+  $("#show-stats").disabled = null;
 
   enableSubmit();
 
@@ -60,6 +61,7 @@ function json2html(str) {
 function doParse() {
   $("#submit").value = "processing...";
   $("#submit").disabled = "disabled";
+  $("#show-stats").disabled = "disabled";
 
   setTimeout(doParse2, 50);
 }
