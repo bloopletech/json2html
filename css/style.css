@@ -74,7 +74,7 @@ table th {
 #header {
   height: 90px;
   padding-top: 17px;
-  background: url("images/top1.png") repeat-x;
+  background: url("../images/top1.png") repeat-x;
   text-align: center;
 }
 
