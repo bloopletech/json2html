@@ -1,18 +1,6 @@
 "use strict";
 
 (function() {
-  function itemPath(item) {
-    var path = ["<root>"];
-
-    if(item.address) {
-      item.address.full().forEach(function(address) {
-        path.push(address.parent.type == "array" ? "[" + address.prop + "]" : "." + address.prop);
-      });
-    }
-
-    return path.join("");
-  }
-
   function itemTrailLabel(item) {
     return item.typeLabel + " (" + item.tuples.length + " item" + (item.tuples.length != 1 ? "s)" : ")");
   }
@@ -39,7 +27,7 @@
 
     var item = window.tree.fromIndex(parseInt(element.dataset.index));
 
-    $("#focus-path").textContent = itemPath(item);
+    $("#focus-path").textContent = Util.itemPath(item);
     $("#focus-trail").textContent = itemTrail(item);
   }
 
@@ -72,12 +60,22 @@
     outlineObject(outlinable);
   }
 
+  function handleZoom(event) {
+    var element = event.target.parentNode;
+    var zoomed = element.parentNode != $("#output");
+    var treeNode = zoomed ? window.tree.fromIndex(parseInt(element.dataset.index)) : window.tree.root;
+    var result = render(treeNode);
+    $("#output").innerHTML = result.output;
+    if(zoomed) $("#output").firstChild.classList.add("zoomed");
+  }
+
   function init() {
     document.body.addEventListener("click", function(event) {
       handleOutline(event);
       handleFocus(event);
 
       if(event.target.matches(".widget")) event.target.parentNode.classList.toggle("minimised");
+      if(event.target.matches(".zoom")) handleZoom(event);
     });
 
     document.body.addEventListener("mousemove", function(event) {

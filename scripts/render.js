@@ -34,9 +34,11 @@ window.render = function(root) {
     elementCount++;
     arrayCount++;
     renderCount++;
-    if(!array.tuples.length) return "<div data-index='" + array.index + "'>(empty Array)</div>";
+    var pathText = array == root && root.address != null ? " <small>" + Util.escapeHTML(Util.itemPath(root)) + "</small>" : "";
+    if(!array.tuples.length) return "<div data-index='" + array.index + "'>(empty Array" + pathText + ")</div>";
 
-    var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + array.index + "'><div class='widget'></div><h3>Array</h3>";
+    var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + array.index +
+      "'><div class='widget'></div><div class='zoom'></div><h3>Array" + pathText + "</h3>";
     out += "<table><tr><th>Index</th><th>Value</th></tr>";
     out += renderTuples(array.tuples);
     out += "</table></div>";
@@ -47,9 +49,11 @@ window.render = function(root) {
     elementCount++;
     objectCount++;
     renderCount++;
-    if(!object.tuples.length) return "<div data-index='" + object.index + "'>(empty Object)</div>";
+    var pathText = object == root && root.address != null ? " <small>" + Util.escapeHTML(Util.itemPath(root)) + "</small>" : "";
+    if(!object.tuples.length) return "<div data-index='" + object.index + "'>(empty Object" + pathText + ")</div>";
 
-    var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + object.index + "'><div class='widget'></div><h3>Object</h3>";
+    var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + object.index +
+      "'><div class='widget'></div><div class='zoom'></div><h3>Object" + pathText + "</h3>";
     out += "<table><tr><th>Name</th><th>Value</th></tr>";
     out += renderTuples(object.tuples);
     out += "</table></div>";

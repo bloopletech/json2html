@@ -190,6 +190,21 @@ div.minimised > table {
   display: none;
 }
 
+.zoom {
+  float: right;
+  line-height: 25px;
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+.zoom:before {
+  content: "🎯";
+}
+
+div.zoomed {
+  border: 2px solid #ff0000;
+}
+
 #focus {
   position: fixed;
   right: 0;

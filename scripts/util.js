@@ -21,6 +21,18 @@ window.Util = (function() {
     return escapeHTML(format(input));
   }
 
+  function itemPath(item) {
+    var path = ["<root>"];
+
+    if(item.address) {
+      item.address.full().forEach(function(address) {
+        path.push(address.parent.type == "array" ? "[" + address.prop + "]" : "." + address.prop);
+      });
+    }
+
+    return path.join("");
+  }
+
   // Following function sourced from https://stackoverflow.com/a/23329386
   function byteLength(str) {
     // returns the byte length of an utf8 string
@@ -70,6 +82,7 @@ window.Util = (function() {
     format: format,
     escapeHTML: escapeHTML,
     formatThenEscape: formatThenEscape,
+    itemPath: itemPath,
     byteLength: byteLength,
     humanFileSize: humanFileSize
   }
