@@ -2,13 +2,18 @@
 
 var tree = null;
 
-function doStats(result) {
+function doStats(result, text) {
+  var textByteLength = Util.byteLength(text);
   var out = "<input type='button' id='statst' onclick='showStats();' value='Show Statistics' style='float: right;' />\n"
    + "<div class='clear'></div>\n"
-    + "<div id='statscon'>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>" + result.arrayCount + "</td>\n</tr>\n"
-    + "<tr>\n<td>Number of Objects:</td>\n<td>" + result.objectCount + "</td>\n</tr>\n"
-     + "<tr>\n<td>Total number of all elements:</td>\n<td>" + result.elementCount + "</td>\n</tr>\n"
-      + "<tr>\n<td>Nesting depth:</td>\n<td>" + tree.nestingLevel + "</td>\n</tr>\n"
+    + "<div id='statscon'>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>" + Util.format(result.arrayCount) + "</td>\n</tr>\n"
+    + "<tr>\n<td>Number of Objects:</td>\n<td>" + Util.format(result.objectCount) + "</td>\n</tr>\n"
+     + "<tr>\n<td>Total number of all elements:</td>\n<td>" + Util.format(result.elementCount) + "</td>\n</tr>\n"
+      + "<tr>\n<td>Nesting depth:</td>\n<td>" + Util.format(tree.nestingLevel) + "</td>\n</tr>\n"
+      + "<tr>\n<td>Size of JSON document (UTF-8 bytes):</td>\n<td>" + Util.humanFileSize(textByteLength, true) + " ("
+      + Util.format(textByteLength) + " B)</td>\n</tr>\n"
+      + "<tr>\n<td>Size of JSON document (UTF-16 code units):</td>\n<td>" + Util.humanFileSize(text.length, true) + " ("
+      + Util.format(text.length) + " B)</td>\n</tr>\n"
       + "</table>\n</div>\n</div>\n";
   return out;
 }
@@ -38,7 +43,7 @@ function json2html(str) {
 
   $("#output").innerHTML = result.output;
 
-  $("#stats").innerHTML = doStats(result);
+  $("#stats").innerHTML = doStats(result, str);
   $("#stats").className = "";
 
   $("#submit").value = "json 2 html";
@@ -55,7 +60,7 @@ function doParse() {
 }
 
 function doParse2() {
-  var value = $("#text").value;
+  var value = $("#text").value != "" ? $("#text").value : window.offscreenText;
   if(value.substr(0, 4) == "http" || value.substr(0, 4) == "file" || value.substr(0, 3) == "ftp") {
     getURL(value);
   }
@@ -119,8 +124,41 @@ function hideHelp() {
   $("#text").focus();
 }
 
+var LARGE_DOCUMENT_CUTOFF = 150 * 1024; // 150K "UTF-16 code units"
+
+function onTextPaste(event) {
+  // If the textarea already has text in it, then allow the browser to handle the paste normally, because the user's
+  // intent might be to paste a fragment of JSON to amend existing text, rather than completely replacing what is in
+  // the textarea with a complete JSON document.
+  if($("#text").value != "") return;
+
+  // Get text representation of clipboard
+  var text = (event.originalEvent || event).clipboardData.getData("text/plain");
+
+  // If the JSON document to be pasted is small enough that it won't negatively impact performance, then allow the
+  // browser to handle the paste normally; this way the user can edit the JSON document in the textarea.
+  if(text.length <= LARGE_DOCUMENT_CUTOFF) return;
+
+  // Cancel browser default paste behaviour. The default behaviour, laying out and rendering the string inside the
+  // textarea, is the performance expensive operation; so skip it.
+  event.preventDefault();
+
+  window.offscreenText = text;
+  $("#text").placeholder = "[Large JSON document of size " + Util.humanFileSize(Util.byteLength(text), true) +
+    " successfully pasted; display of the document skipped for performance]";
+}
+
+function onTextChanged(event) {
+  if($("#text").value == "") return;
+  window.offscreenText = null;
+  $("#text").removeAttribute("placeholder");
+}
+
 function init() {
   window.$ = document.querySelector.bind(document);
+
+  $("#text").addEventListener("paste", onTextPaste);
+  $("#text").addEventListener("input", onTextChanged);
 
   $("#reset").addEventListener("click", function(event) {
     $("#stats").innerHTML = "";
