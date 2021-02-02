@@ -1,16 +1,6 @@
 "use strict";
 
 window.render = function(root) {
-  function escapeHTML(unsafe) {
-    if(unsafe == null) return "";
-    return unsafe.toString()
-     .replace(/&/g, "&amp;")
-     .replace(/</g, "&lt;")
-     .replace(/>/g, "&gt;")
-     .replace(/"/g, "&quot;")
-     .replace(/'/g, "&#039;");
-  }
-
   var elementCount = 0;
   var arrayCount = 0;
   var objectCount = 0;
@@ -21,12 +11,12 @@ window.render = function(root) {
 
     tuples.forEach(function(tuple) {
       var value = tuple.value;
-      out += "<tr data-index='" + value.index + "'><td>" + escapeHTML(tuple.name) + "</td>";
+      out += "<tr data-index='" + value.index + "'><td>" + Util.escapeHTML(tuple.name) + "</td>";
       out += "<td class='" + value.type + "'" + (value.simple ? " title='" + value.typeLabel + "'" : "") + ">";
 
       if(value.simple) {
         elementCount++;
-        out += escapeHTML(value.value);
+        out += Util.escapeHTML(value.value);
       }
       else if(value.type == "array") {
         out += renderArray(value);
@@ -70,7 +60,7 @@ window.render = function(root) {
     if(val.type == "array") return renderArray(val);
     if(val.type == "object") return renderObject(val);
     elementCount++;
-    return "<span class='" + val.type + "' title='" + value.typeLabel + "'>" + escapeHTML(val.value) + "</span>";
+    return "<span class='" + val.type + "' title='" + value.typeLabel + "'>" + Util.escapeHTML(val.value) + "</span>";
   }
 
   var output = renderDocument(root);
