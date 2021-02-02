@@ -1,12 +1,13 @@
 "use strict";
 
+var HELP_CONTENT = null;
 var tree = null;
+var statsContent = null;
 
 function doStats(result, text) {
   var textByteLength = Util.byteLength(text);
-  var out = "<input type='button' id='statst' onclick='showStats();' value='Show Statistics' style='float: right;' />\n"
-   + "<div class='clear'></div>\n"
-    + "<div id='statscon'>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>" + Util.format(result.arrayCount) + "</td>\n</tr>\n"
+  var out = "<div id='stats'><h3>Statistics</h3>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>"
+    + Util.format(result.arrayCount) + "</td>\n</tr>\n"
     + "<tr>\n<td>Number of Objects:</td>\n<td>" + Util.format(result.objectCount) + "</td>\n</tr>\n"
      + "<tr>\n<td>Total number of all elements:</td>\n<td>" + Util.format(result.elementCount) + "</td>\n</tr>\n"
       + "<tr>\n<td>Nesting depth:</td>\n<td>" + Util.format(tree.nestingLevel) + "</td>\n</tr>\n"
@@ -14,7 +15,7 @@ function doStats(result, text) {
       + Util.format(textByteLength) + " B)</td>\n</tr>\n"
       + "<tr>\n<td>Size of JSON document (UTF-16 code units):</td>\n<td>" + Util.humanFileSize(text.length, true) + " ("
       + Util.format(text.length) + " B)</td>\n</tr>\n"
-      + "</table>\n</div>\n</div>\n";
+      + "</table>\n</div>\n";
   return out;
 }
 
@@ -49,8 +50,7 @@ function json2html(str) {
 
   $("#output").innerHTML = result.output;
 
-  $("#stats").innerHTML = doStats(result, str);
-  $("#stats").className = "";
+  statsContent = doStats(result, str);
 
   enableSubmit();
 
@@ -81,52 +81,6 @@ function getURL(str) {
     if(http.readyState == 4) json2html(http.responseText);
   };
   http.send(null);
-}
-
-function showStats() {
-  if($("#statscon").style.display != "block") {
-    $("#statscon").style.display = "block";
-    $("#stats").className = "statson";
-    $("#statst").value = "Hide Statistics";
-  }
-  else {
-    $("#statscon").style.display = "none";
-    $("#stats").className = "";
-    $("#statst").value = "Show Statistics";
-  }
-}
-
-//code from Painfully Obvious.
-//based on code from quirksmode.org
-var Client = {
-  viewportWidth: function() {
-  return self.innerWidth || (document.documentElement.clientWidth || document.body.clientWidth);
-  },
-
-  viewportHeight: function() {
-   return self.innerHeight || (document.documentElement.clientHeight || document.body.clientHeight);
-  },
-
-  viewportSize: function() {
-   return { width: this.viewportWidth(), height: this.viewportHeight() };
-  }
-};
-
-function doHelp() {
-  $("#help-content").style.display = "block";
-  var bodySize = Client.viewportSize();
-
-  $("#backdrop").style.display = "block";
-
-  $("#help-content").style.left = ((bodySize.width / 2) - ($("#help-content").offsetWidth / 2)) + "px";
-  $("#help-content").style.top = ((bodySize.height / 2) - ($("#help-content").offsetHeight / 2)) + "px";
-  $("body").scrollIntoView();
-}
-
-function hideHelp() {
-  $("#help-content").style.display = "none";
-  $("#backdrop").style.display = "none";
-  $("#text").focus();
 }
 
 var LARGE_DOCUMENT_CUTOFF = 150 * 1024; // 150K "UTF-16 code units"
@@ -162,12 +116,23 @@ function onTextChanged(event) {
 function init() {
   window.$ = document.querySelector.bind(document);
 
+  HELP_CONTENT = $("#help-content").innerHTML;
+  $("#help-content").remove();
+
   $("#text").addEventListener("paste", onTextPaste);
   $("#text").addEventListener("input", onTextChanged);
 
   $("#reset").addEventListener("click", function(event) {
-    $("#stats").innerHTML = "";
+    statsContent = "";
     $("#output").innerHTML = "";
+  });
+
+  $("#show-stats").addEventListener("click", function(event) {
+    Modal.show(statsContent);
+  });
+
+  $("#show-help").addEventListener("click", function(event) {
+    Modal.show(HELP_CONTENT);
   });
 
   if($("#text").focus) $("#text").focus();

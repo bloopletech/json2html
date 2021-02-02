@@ -3,13 +3,18 @@
   line-height: 1.4;
 }
 
+.clearfix::after {
+  content: " ";
+  display: table;
+  clear: both;
+}
+
 body {
   min-height: 100%;
   margin: 0 0 10px;
   padding: 0;
   font-size: 16px;
   background-color: #ffffff;
-  background-image: url("images/back.png");
   color: #000000;
 }
 
@@ -25,6 +30,8 @@ hr {
   border: none;
   height: 1px;
   background-color: #808080;
+  margin-left: -16px;
+  margin-right: -16px;
 }
 
 form {
@@ -62,17 +69,6 @@ table th, table td {
 
 table th {
   font-weight: 500;
-}
-
-#backdrop {
-  background-color: rgba(0, 0, 0, 0.6);
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 99;
 }
 
 #header {
@@ -113,21 +109,6 @@ form > .mast {
 #output {
   margin-top: 16px;
   margin-bottom: 16px;
-}
-
-#help-content {
-  display: none;
-  max-width: 600px;
-  position: absolute;
-  z-index: 99;
-  padding: 16px;
-  border: 1px solid #000000;
-  background-color: #ffffee;
-}
-
-.closep {
-  text-align: center;
-  margin-bottom: 0;
 }
 
 h3 {
@@ -232,16 +213,6 @@ div.zoomed {
 
 #focus label {
   font-weight: 500;
-}
-
-.statson {
-  padding: 10px;
-  background-color: #ffffff;
-  border: 1px solid #a0a0a0;
-}
-
-#statscon {
-  display: none;
 }
 
 #stats table {
