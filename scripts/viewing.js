@@ -54,22 +54,40 @@
     if(element) element.style.outline = "1px solid #ffa000";
   }
 
-  function handleFocusOutline(event) {
-    var focusable = event.target.closest("div[data-index], tr[data-index]");
-    if(focusable) focusObject(focusable);
+  var focusFrozen = false;
 
+  function handleFocus(event) {
+    var focusable = event.target.closest("div[data-index], tr[data-index]");
+    if(!focusable) return;
+
+    if(event.type == "click") {
+      focusFrozen = true;
+      focusObject(focusable);
+    }
+    else if(!focusFrozen) focusObject(focusable);
+  }
+
+  function handleOutline(event) {
     var outlinable = event.target.closest("div[data-index]");
     outlineObject(outlinable);
   }
 
   function init() {
     document.body.addEventListener("click", function(event) {
-      handleFocusOutline(event);
+      handleOutline(event);
+      handleFocus(event);
 
       if(event.target.matches(".widget")) event.target.parentNode.classList.toggle("minimised");
     });
 
-    document.body.addEventListener("mousemove", handleFocusOutline);
+    document.body.addEventListener("mousemove", function(event) {
+      handleOutline(event);
+      handleFocus(event);
+    });
+
+    document.addEventListener("scroll", function(event) {
+      focusFrozen = false;
+    });
 
     $("#reset").addEventListener("click", function(event) {
       $("#focus-path").textContent = "";
