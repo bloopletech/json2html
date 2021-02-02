@@ -1,3 +1,5 @@
+"use strict";
+
 window.transformTree = function(parseTree) {
   var tree = null;
   var treeMap = [];
