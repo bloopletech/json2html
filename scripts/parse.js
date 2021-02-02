@@ -18,6 +18,11 @@ function doStats(result, text) {
   return out;
 }
 
+function enableSubmit() {
+  $("#submit").value = "json 2 html";
+  $("#submit").disabled = null;
+}
+
 function parse(str) {
   try {
     return JSON.parse(str);
@@ -30,6 +35,7 @@ function parse(str) {
       alert("There was an unknown error. Perhaps the JSON string contained a deep level of nesting.");
     }
 
+    enableSubmit();
     $("#text").focus();
     return;
   }
@@ -46,8 +52,7 @@ function json2html(str) {
   $("#stats").innerHTML = doStats(result, str);
   $("#stats").className = "";
 
-  $("#submit").value = "json 2 html";
-  $("#submit").disabled = null;
+  enableSubmit();
 
   $("#output").scrollIntoView();
 }
