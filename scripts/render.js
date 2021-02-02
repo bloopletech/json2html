@@ -34,7 +34,7 @@ window.render = function(root) {
     elementCount++;
     arrayCount++;
     renderCount++;
-    var pathText = array == root && root.address != null ? " <small>" + Util.escapeHTML(Util.itemPath(root)) + "</small>" : "";
+    var pathText = array == root && root.address != null ? " <code>" + Util.escapeHTML(Util.itemPath(root)) + "</code>" : "";
     if(!array.tuples.length) return "<div data-index='" + array.index + "'>(empty Array" + pathText + ")</div>";
 
     var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + array.index +
@@ -49,7 +49,7 @@ window.render = function(root) {
     elementCount++;
     objectCount++;
     renderCount++;
-    var pathText = object == root && root.address != null ? " <small>" + Util.escapeHTML(Util.itemPath(root)) + "</small>" : "";
+    var pathText = object == root && root.address != null ? " <code>" + Util.escapeHTML(Util.itemPath(root)) + "</code>" : "";
     if(!object.tuples.length) return "<div data-index='" + object.index + "'>(empty Object" + pathText + ")</div>";
 
     var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + object.index +

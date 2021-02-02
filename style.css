@@ -13,6 +13,10 @@ body {
   color: #000000;
 }
 
+code, textarea {
+  font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+}
+
 p {
   margin: 0 0 15px;
 }
@@ -34,7 +38,6 @@ textarea {
   margin-bottom: 5px;
   padding: 1px;
   border: 1px solid purple;
-  font-family: monospace;
 }
 
 input[type="button"], input[type="submit"] {
@@ -127,6 +130,11 @@ h3 {
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 18px;
+}
+
+h3 code {
+  font-size: 16px;
+  font-weight: normal;
 }
 
 div.object, div.array {
