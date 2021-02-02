@@ -1,9 +1,8 @@
 "use strict";
 
 var tree = null;
-var result = null;
 
-function doStats() {
+function doStats(result) {
   var out = "<input type='button' id='statst' onclick='showStats();' value='Show Statistics' style='float: right;' />\n"
    + "<div class='clear'></div>\n"
     + "<div id='statscon'>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>" + result.arrayCount + "</td>\n</tr>\n"
@@ -35,11 +34,11 @@ function json2html(str) {
   var parseTree = parse(str);
   if(!parseTree) return;
   tree = transformTree(parseTree);
-  result = render(tree.root);
+  var result = render(tree.root);
 
   $("#output").innerHTML = result.output;
 
-  $("#stats").innerHTML = doStats();
+  $("#stats").innerHTML = doStats(result);
   $("#stats").className = "";
 
   $("#submit").value = "json 2 html";
