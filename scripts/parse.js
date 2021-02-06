@@ -130,6 +130,8 @@ function onTextDrop(event) {
   var file = fileList[0];
   if(!file) return;
 
+  if(file.type != "text/plain" && file.type != "application/json") return;
+
   var reader = new FileReader();
   reader.addEventListener("load", function(event) {
     var text = event.target.result;
