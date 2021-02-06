@@ -115,6 +115,41 @@ function onTextChanged(event) {
   $("#text").removeAttribute("placeholder");
 }
 
+function onTextDrag(event) {
+  event.stopPropagation();
+  event.preventDefault();
+  // Style the drag-and-drop as a "copy file" operation.
+  event.dataTransfer.dropEffect = "copy";
+}
+
+function onTextDrop(event) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  var fileList = event.dataTransfer.files;
+  var file = fileList[0];
+  if(!file) return;
+
+  var reader = new FileReader();
+  reader.addEventListener("load", function(event) {
+    var text = event.target.result;
+
+    if(text.length > LARGE_DOCUMENT_CUTOFF) {
+      window.offscreenText = text;
+      $("#text").value = "";
+      $("#text").placeholder = "[Large JSON document of size " + Util.humanFileSize(Util.byteLength(text), true) +
+        " successfully pasted; display of the document skipped for performance]";
+    }
+    else {
+      $("#text").value = text;
+      window.offscreenText = null;
+      $("#text").removeAttribute("placeholder");
+    }
+  });
+
+  reader.readAsText(file);
+}
+
 function init() {
   window.$ = document.querySelector.bind(document);
 
@@ -123,6 +158,8 @@ function init() {
 
   $("#text").addEventListener("paste", onTextPaste);
   $("#text").addEventListener("input", onTextChanged);
+  $("#text").addEventListener("dragover", onTextDrag);
+  $("#text").addEventListener("drop", onTextDrop);
 
   $("#reset").addEventListener("click", function(event) {
     statsContent = "";
