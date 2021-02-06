@@ -1,6 +1,7 @@
 "use strict";
 
 window.render = function(root) {
+  var LARGE_RENDER_COUNT_CUTOFF = 250; // 250 nodes
   var elementCount = 0;
   var arrayCount = 0;
   var objectCount = 0;
@@ -37,8 +38,8 @@ window.render = function(root) {
     var pathText = array == root && root.address != null ? " <code>" + Util.escapeHTML(Util.itemPath(root)) + "</code>" : "";
     if(!array.tuples.length) return "<div data-index='" + array.index + "'>(empty Array" + pathText + ")</div>";
 
-    var out = "<div class='array" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + array.index +
-      "'><div class='widget'></div><div class='zoom'></div><h3>Array" + pathText + "</h3>";
+    var out = "<div class='array" + (renderCount >= LARGE_RENDER_COUNT_CUTOFF ? " minimised" : "") + "' data-index='" +
+      array.index + "'><div class='widget'></div><div class='zoom'></div><h3>Array" + pathText + "</h3>";
     out += "<table><tr><th>Index</th><th>Value</th></tr>";
     out += renderTuples(array.tuples);
     out += "</table></div>";
@@ -52,8 +53,8 @@ window.render = function(root) {
     var pathText = object == root && root.address != null ? " <code>" + Util.escapeHTML(Util.itemPath(root)) + "</code>" : "";
     if(!object.tuples.length) return "<div data-index='" + object.index + "'>(empty Object" + pathText + ")</div>";
 
-    var out = "<div class='object" + (renderCount >= 1000 ? " minimised" : "") + "' data-index='" + object.index +
-      "'><div class='widget'></div><div class='zoom'></div><h3>Object" + pathText + "</h3>";
+    var out = "<div class='object" + (renderCount >= LARGE_RENDER_COUNT_CUTOFF ? " minimised" : "") + "' data-index='" +
+      object.index + "'><div class='widget'></div><div class='zoom'></div><h3>Object" + pathText + "</h3>";
     out += "<table><tr><th>Name</th><th>Value</th></tr>";
     out += renderTuples(object.tuples);
     out += "</table></div>";
