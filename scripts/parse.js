@@ -1,12 +1,12 @@
 "use strict";
 
-var HELP_CONTENT = null;
+let HELP_CONTENT = null;
 var tree = null;
-var statsContent = null;
+let statsContent = null;
 
 function doStats(result, text) {
-  var textByteLength = Util.byteLength(text);
-  var out = "<div id='stats'><h3>Statistics</h3>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>"
+  const textByteLength = Util.byteLength(text);
+  return "<div id='stats'><h3>Statistics</h3>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>"
     + Util.format(result.arrayCount) + "</td>\n</tr>\n"
     + "<tr>\n<td>Number of Objects:</td>\n<td>" + Util.format(result.objectCount) + "</td>\n</tr>\n"
      + "<tr>\n<td>Total number of all elements:</td>\n<td>" + Util.format(result.elementCount) + "</td>\n</tr>\n"
@@ -16,7 +16,6 @@ function doStats(result, text) {
       + "<tr>\n<td>Size of JSON document (UTF-16 code units):</td>\n<td>" + Util.humanFileSize(text.length, true) + " ("
       + Util.format(text.length) + " B)</td>\n</tr>\n"
       + "</table>\n</div>\n";
-  return out;
 }
 
 function enableSubmit() {
@@ -43,7 +42,7 @@ function parse(str) {
 }
 
 function json2html(str) {
-  var parseTree = parse(str);
+  const parseTree = parse(str);
   if(!parseTree) return;
   tree = transformTree(parseTree);
 
@@ -66,7 +65,7 @@ function doParse() {
 }
 
 function doParse2() {
-  var value = $("#text").value != "" ? $("#text").value : window.offscreenText;
+  const value = $("#text").value != "" ? $("#text").value : window.offscreenText;
   if(value.substr(0, 4) == "http" || value.substr(0, 4) == "file" || value.substr(0, 3) == "ftp") {
     getURL(value);
   }
@@ -76,7 +75,7 @@ function doParse2() {
 }
 
 function getURL(str) {
-  var http = new XMLHttpRequest();
+  const http = new XMLHttpRequest();
   http.open("get", "get.php?url=" + str);
   http.onreadystatechange = function() {
     if(http.readyState == 4) json2html(http.responseText);
@@ -84,7 +83,7 @@ function getURL(str) {
   http.send(null);
 }
 
-var LARGE_DOCUMENT_CUTOFF = 150 * 1024; // 150K "UTF-16 code units"
+const LARGE_DOCUMENT_CUTOFF = 150 * 1024; // 150K "UTF-16 code units"
 
 function onTextPaste(event) {
   // If the textarea already has text in it, then allow the browser to handle the paste normally, because the user's
@@ -93,7 +92,7 @@ function onTextPaste(event) {
   if($("#text").value != "") return;
 
   // Get text representation of clipboard
-  var text = (event.originalEvent || event).clipboardData.getData("text/plain");
+  const text = (event.originalEvent || event).clipboardData.getData("text/plain");
 
   // If the JSON document to be pasted is small enough that it won't negatively impact performance, then allow the
   // browser to handle the paste normally; this way the user can edit the JSON document in the textarea.
@@ -125,15 +124,15 @@ function onTextDrop(event) {
   event.stopPropagation();
   event.preventDefault();
 
-  var fileList = event.dataTransfer.files;
-  var file = fileList[0];
+  const fileList = event.dataTransfer.files;
+  const file = fileList[0];
   if(!file) return;
 
   if(file.type != "text/plain" && file.type != "application/json") return;
 
-  var reader = new FileReader();
+  const reader = new FileReader();
   reader.addEventListener("load", function(event) {
-    var text = event.target.result;
+    const text = event.target.result;
 
     if(text.length > LARGE_DOCUMENT_CUTOFF) {
       window.offscreenText = text;
