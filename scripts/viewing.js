@@ -2,7 +2,7 @@
 
 (function() {
   function itemTrailLabel(item) {
-    return item.typeLabel + " (" + item.tuples.length + " item" + (item.tuples.length != 1 ? "s)" : ")");
+    return `${item.typeLabel} (${item.tuples.length} item${item.tuples.length != 1 ? "s)" : ")"}`;
   }
 
   function itemTrail(item) {
