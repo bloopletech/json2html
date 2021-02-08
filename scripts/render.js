@@ -2,9 +2,6 @@
 
 window.render = function(root, targeted) {
   var LARGE_RENDER_COUNT_CUTOFF = 250; // 250 nodes
-  var elementCount = 0;
-  var arrayCount = 0;
-  var objectCount = 0;
   var renderCount = 0;
 
   function renderTuples(node) {
@@ -16,16 +13,10 @@ window.render = function(root, targeted) {
       out += "<tr data-index='" + value.index + "'><td>" + Util.escapeHTML(tuple.name) + "</td>";
       out += "<td class='" + value.type + "'" + (value.simple ? " title='" + value.typeLabel + "'" : "") + ">";
 
-      if(value.simple) {
-        elementCount++;
-        out += Util.escapeHTML(value.value);
-      }
-      else if(value.type == "array") {
-        out += renderArray(value);
-      }
-      else if(value.type == "object") {
-        out += renderObject(value);
-      }
+      if(value.simple) out += Util.escapeHTML(value.value);
+      else if(value.type == "array") out += renderArray(value);
+      else if(value.type == "object") out += renderObject(value);
+
       out += "</td></tr>";
     });
 
@@ -34,8 +25,6 @@ window.render = function(root, targeted) {
   }
 
   function renderArray(array) {
-    elementCount++;
-    arrayCount++;
     renderCount++;
     var pathText = array == root && targeted ? " <code>" + Util.escapeHTML(Util.itemPath(root)) + "</code>" : "";
     if(!array.tuples.length) return "<div data-index='" + array.index + "'>(empty Array" + pathText + ")</div>";
@@ -50,8 +39,6 @@ window.render = function(root, targeted) {
   }
 
   function renderObject(object) {
-    elementCount++;
-    objectCount++;
     renderCount++;
     var pathText = object == root && targeted ? " <code>" + Util.escapeHTML(Util.itemPath(root)) + "</code>" : "";
     if(!object.tuples.length) return "<div data-index='" + object.index + "'>(empty Object" + pathText + ")</div>";
@@ -65,20 +52,7 @@ window.render = function(root, targeted) {
     return out;
   }
 
-  function renderDocument(val) {
-    if(val.type == "array") return renderArray(val);
-    if(val.type == "object") return renderObject(val);
-    elementCount++;
-    return "<span class='" + val.type + "' title='" + value.typeLabel + "'>" + Util.escapeHTML(val.value) + "</span>";
-  }
-
-  var output = renderDocument(root);
-
-  return {
-    output: output,
-    elementCount: elementCount,
-    arrayCount: arrayCount,
-    objectCount: objectCount,
-    renderCount: renderCount
-  };
+  if(root.type == "array") return renderArray(root);
+  if(root.type == "object") return renderObject(root);
+  return "<span class='" + root.type + "' title='" + root.typeLabel + "'>" + Util.escapeHTML(root.value) + "</span>";
 };

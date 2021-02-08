@@ -46,11 +46,10 @@ function json2html(str) {
   var parseTree = parse(str);
   if(!parseTree) return;
   tree = transformTree(parseTree);
-  var result = render(tree.root);
 
-  $("#output").innerHTML = result.output;
+  $("#output").innerHTML = render(tree.root);
 
-  statsContent = doStats(result, str);
+  statsContent = doStats(gatherStatistics(tree.root), str);
   $("#show-stats").disabled = null;
 
   enableSubmit();

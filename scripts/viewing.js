@@ -64,8 +64,7 @@
     var element = event.target.parentNode;
     var zoomed = element.parentNode != $("#output");
     var treeNode = zoomed ? window.tree.fromIndex(parseInt(element.dataset.index)) : window.tree.root;
-    var result = render(treeNode, zoomed);
-    $("#output").innerHTML = result.output;
+    $("#output").innerHTML = render(treeNode, zoomed);
     if(zoomed) $("#output").firstChild.classList.add("zoomed");
   }
 
@@ -75,8 +74,7 @@
 
     if(!element.classList.contains("dry")) return;
     var treeNode = window.tree.fromIndex(parseInt(element.dataset.index));
-    var result = render(treeNode);
-    element.insertAdjacentHTML("beforebegin", result.output);
+    element.insertAdjacentHTML("beforebegin", render(treeNode));
     element.remove();
   }
 
