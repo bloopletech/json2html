@@ -6,7 +6,7 @@
   }
 
   function itemTrail(item) {
-    var trail = ["Root"];
+    const trail = ["Root"];
 
     if(item.address) {
       for(const address of item.address.full()) trail.push(itemTrailLabel(address.parent));
@@ -17,19 +17,19 @@
     return trail.join(" > ");
   }
 
-  var currentFocusElement = null;
+  let currentFocusElement = null;
   function focusObject(element) {
     if(element == currentFocusElement) return;
 
     currentFocusElement = element;
 
-    var item = window.tree.fromIndex(parseInt(element.dataset.index));
+    const item = window.tree.fromIndex(parseInt(element.dataset.index));
 
     $("#focus-path").textContent = Util.itemPath(item);
     $("#focus-trail").textContent = itemTrail(item);
   }
 
-  var currentOutlineElement = null;
+  let currentOutlineElement = null;
   function outlineObject(element) {
     if(element == currentOutlineElement) return;
 
@@ -40,10 +40,10 @@
     if(element) element.style.outline = "1px solid #ffa000";
   }
 
-  var focusFrozen = false;
+  let focusFrozen = false;
 
   function handleFocus(event) {
-    var focusable = event.target.closest("div[data-index], tr[data-index]");
+    const focusable = event.target.closest("div[data-index], tr[data-index]");
     if(!focusable) return;
 
     if(event.type == "click") {
@@ -54,24 +54,24 @@
   }
 
   function handleOutline(event) {
-    var outlinable = event.target.closest("div[data-index]");
+    const outlinable = event.target.closest("div[data-index]");
     outlineObject(outlinable);
   }
 
   function handleZoom(event) {
-    var element = event.target.parentNode;
-    var zoomed = element.parentNode != $("#output");
-    var treeNode = zoomed ? window.tree.fromIndex(parseInt(element.dataset.index)) : window.tree.root;
+    const element = event.target.parentNode;
+    const zoomed = element.parentNode != $("#output");
+    const treeNode = zoomed ? window.tree.fromIndex(parseInt(element.dataset.index)) : window.tree.root;
     $("#output").innerHTML = render(treeNode, zoomed);
     if(zoomed) $("#output").firstChild.classList.add("zoomed");
   }
 
   function handleMinimise(event) {
-    var element = event.target.parentNode;
+    const element = event.target.parentNode;
     element.classList.toggle("minimised");
 
     if(!element.classList.contains("dry")) return;
-    var treeNode = window.tree.fromIndex(parseInt(element.dataset.index));
+    const treeNode = window.tree.fromIndex(parseInt(element.dataset.index));
     element.insertAdjacentHTML("beforebegin", render(treeNode));
     element.remove();
   }
