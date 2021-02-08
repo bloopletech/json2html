@@ -10,10 +10,10 @@ window.render = function(root, targeted) {
 
     for(const tuple of node.tuples) {
       const value = tuple.value;
-      out += `<tr data-index='${value.index}'><td>${Util.escapeHTML(tuple.name)}</td>`;
+      out += `<tr data-index='${value.index}'><td>${e(tuple.name)}</td>`;
       out += `<td class='${value.type}'${(value.simple ? ` title='${value.typeLabel}'` : "")}>`;
 
-      if(value.simple) out += Util.escapeHTML(value.value);
+      if(value.simple) out += e(value.value);
       else if(value.type == "array") out += renderArray(value);
       else if(value.type == "object") out += renderObject(value);
 
@@ -26,7 +26,7 @@ window.render = function(root, targeted) {
 
   function renderArray(array) {
     renderCount++;
-    var pathText = array == root && targeted ? ` <code>${Util.escapeHTML(Util.itemPath(root))}</code>` : "";
+    var pathText = array == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
     if(!array.tuples.length) return `<div data-index='${array.index}'>(empty Array${pathText})</div>`;
 
     var minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
@@ -39,7 +39,7 @@ window.render = function(root, targeted) {
 
   function renderObject(object) {
     renderCount++;
-    var pathText = object == root && targeted ? ` <code>${Util.escapeHTML(Util.itemPath(root))}</code>` : "";
+    var pathText = object == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
     if(!object.tuples.length) return `<div data-index='${object.index}'>(empty Object${pathText})</div>`;
 
     var minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
@@ -52,5 +52,5 @@ window.render = function(root, targeted) {
 
   if(root.type == "array") return renderArray(root);
   if(root.type == "object") return renderObject(root);
-  return `<span class='${root.type}' title='${root.typeLabel}'>${Util.escapeHTML(root.value)}</span>`;
+  return `<span class='${root.type}' title='${root.typeLabel}'>${e(root.value)}</span>`;
 };
