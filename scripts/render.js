@@ -5,7 +5,7 @@ window.render = function(root, targeted) {
   var renderCount = 0;
 
   function renderTuples(node) {
-    var nameColumnName = node.constructor.name == "TreeArray" ? "Index" : "Name";
+    var nameColumnName = node.type == "array" ? "Index" : "Name";
     var out = "<table><tr><th>" + nameColumnName + "</th><th>Value</th></tr>";
 
     node.tuples.forEach(function(tuple) {
