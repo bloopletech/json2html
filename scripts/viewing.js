@@ -9,9 +9,7 @@
     var trail = ["Root"];
 
     if(item.address) {
-      item.address.full().forEach(function(address) {
-        trail.push(itemTrailLabel(address.parent));
-      });
+      for(const address of item.address.full()) trail.push(itemTrailLabel(address.parent));
     }
 
     if(!item.simple) trail.push(itemTrailLabel(item));
