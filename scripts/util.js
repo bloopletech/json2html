@@ -2,7 +2,7 @@
 
 window.Util = (function() {
   function format(input) {
-    var type = typeof input;
+    const type = typeof input;
     if(type == "number") return input.toLocaleString();
     return input;
   }
@@ -22,7 +22,7 @@ window.Util = (function() {
   }
 
   function itemPath(item) {
-    var path = ["<root>"];
+    const path = ["<root>"];
 
     if(item.address) {
       for(const address of item.address.full()) {
@@ -36,9 +36,9 @@ window.Util = (function() {
   // Following function sourced from https://stackoverflow.com/a/23329386
   function byteLength(str) {
     // returns the byte length of an utf8 string
-    var s = str.length;
-    for(var i = str.length - 1; i >= 0; i--) {
-      var code = str.charCodeAt(i);
+    let s = str.length;
+    for(let i = str.length - 1; i >= 0; i--) {
+      const code = str.charCodeAt(i);
       if(code > 0x7f && code <= 0x7ff) s++;
       else if(code > 0x7ff && code <= 0xffff) s+=2;
       if(code >= 0xDC00 && code <= 0xDFFF) i--; //trail surrogate
