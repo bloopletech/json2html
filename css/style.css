@@ -124,7 +124,7 @@ h3 code {
 }
 
 div.object, div.array {
-  display: table-cell;
+  display: inline-block;
   padding: 15px;
   min-width: 100px;
 }
