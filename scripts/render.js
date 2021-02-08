@@ -8,8 +8,8 @@ window.render = function(root, targeted) {
     var nameColumnName = node.type == "array" ? "Index" : "Name";
     var out = "<table><tr><th>" + nameColumnName + "</th><th>Value</th></tr>";
 
-    node.tuples.forEach(function(tuple) {
-      var value = tuple.value;
+    for(const tuple of node.tuples) {
+      const value = tuple.value;
       out += "<tr data-index='" + value.index + "'><td>" + Util.escapeHTML(tuple.name) + "</td>";
       out += "<td class='" + value.type + "'" + (value.simple ? " title='" + value.typeLabel + "'" : "") + ">";
 
@@ -18,7 +18,7 @@ window.render = function(root, targeted) {
       else if(value.type == "object") out += renderObject(value);
 
       out += "</td></tr>";
-    });
+    }
 
     out += "</table>";
     return out;
