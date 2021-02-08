@@ -25,9 +25,9 @@ window.Util = (function() {
     var path = ["<root>"];
 
     if(item.address) {
-      item.address.full().forEach(function(address) {
+      for(const address of item.address.full()) {
         path.push(address.parent.type == "array" ? "[" + address.prop + "]" : "." + address.prop);
-      });
+      }
     }
 
     return path.join("");
