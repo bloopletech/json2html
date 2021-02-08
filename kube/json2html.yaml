@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: json2html
-        image: bloopletech/json2html@sha256:0a9063f282c148fe218506df5d9737a29d03da7612d7fee960feef4f168b49bc
+        image: bloopletech/json2html@sha256:9f35f481004abccc0ebd9b7b6b8a866f96237a93a7c7f25871019e595993cb3e
         ports:
         - containerPort: 8080
         resources:
