@@ -64,9 +64,20 @@
     var element = event.target.parentNode;
     var zoomed = element.parentNode != $("#output");
     var treeNode = zoomed ? window.tree.fromIndex(parseInt(element.dataset.index)) : window.tree.root;
-    var result = render(treeNode);
+    var result = render(treeNode, zoomed);
     $("#output").innerHTML = result.output;
     if(zoomed) $("#output").firstChild.classList.add("zoomed");
+  }
+
+  function handleMinimise(event) {
+    var element = event.target.parentNode;
+    element.classList.toggle("minimised");
+
+    if(!element.classList.contains("dry")) return;
+    var treeNode = window.tree.fromIndex(parseInt(element.dataset.index));
+    var result = render(treeNode);
+    element.insertAdjacentHTML("beforebegin", result.output);
+    element.remove();
   }
 
   function init() {
@@ -74,7 +85,7 @@
       handleOutline(event);
       handleFocus(event);
 
-      if(event.target.matches(".widget")) event.target.parentNode.classList.toggle("minimised");
+      if(event.target.matches(".widget")) handleMinimise(event);
       if(event.target.matches(".zoom")) handleZoom(event);
     });
 
