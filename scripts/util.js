@@ -26,7 +26,7 @@ window.Util = (function() {
 
     if(item.address) {
       for(const address of item.address.full()) {
-        path.push(address.parent.type == "array" ? "[" + address.prop + "]" : "." + address.prop);
+        path.push(address.parent.type == "array" ? `[${address.prop}]` : `.${address.prop}`);
       }
     }
 
