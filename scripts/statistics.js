@@ -1,9 +1,9 @@
 "use strict";
 
 window.gatherStatistics = function(root) {
-  var elementCount = 0;
-  var arrayCount = 0;
-  var objectCount = 0;
+  let elementCount = 0;
+  let arrayCount = 0;
+  let objectCount = 0;
 
   function visit(node) {
     elementCount++;
