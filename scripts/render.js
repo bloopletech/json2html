@@ -1,11 +1,11 @@
 "use strict";
 
 window.render = function(root, targeted) {
-  var LARGE_RENDER_COUNT_CUTOFF = 250; // 250 nodes
+  const LARGE_RENDER_COUNT_CUTOFF = 250; // 250 nodes
   var renderCount = 0;
 
   function renderTuples(node) {
-    var nameColumnName = node.type == "array" ? "Index" : "Name";
+    const nameColumnName = node.type == "array" ? "Index" : "Name";
     var out = `<table><tr><th>${nameColumnName}</th><th>Value</th></tr>`;
 
     for(const tuple of node.tuples) {
@@ -26,10 +26,10 @@ window.render = function(root, targeted) {
 
   function renderArray(array) {
     renderCount++;
-    var pathText = array == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
+    const pathText = array == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
     if(!array.tuples.length) return `<div data-index='${array.index}'>(empty Array${pathText})</div>`;
 
-    var minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
+    const minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
 
     var out = `<div class='array${(minimised ? " minimised dry" : "")}' data-index='${array.index}'><div class='widget'></div><div class='zoom'></div><h3>Array${pathText}</h3>`;
     if(!minimised) out += renderTuples(array);
@@ -39,10 +39,10 @@ window.render = function(root, targeted) {
 
   function renderObject(object) {
     renderCount++;
-    var pathText = object == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
+    const pathText = object == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
     if(!object.tuples.length) return `<div data-index='${object.index}'>(empty Object${pathText})</div>`;
 
-    var minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
+    const minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
 
     var out = `<div class='object${(minimised ? " minimised dry" : "")}' data-index='${object.index}'><div class='widget'></div><div class='zoom'></div><h3>Object${pathText}</h3>`;
     if(!minimised) out += renderTuples(object);
