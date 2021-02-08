@@ -2,11 +2,11 @@
 
 window.render = function(root, targeted) {
   const LARGE_RENDER_COUNT_CUTOFF = 250; // 250 nodes
-  var renderCount = 0;
+  let renderCount = 0;
 
   function renderTuples(node) {
     const nameColumnName = node.type == "array" ? "Index" : "Name";
-    var out = `<table><tr><th>${nameColumnName}</th><th>Value</th></tr>`;
+    let out = `<table><tr><th>${nameColumnName}</th><th>Value</th></tr>`;
 
     for(const tuple of node.tuples) {
       const value = tuple.value;
@@ -31,7 +31,7 @@ window.render = function(root, targeted) {
 
     const minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
 
-    var out = `<div class='array${(minimised ? " minimised dry" : "")}' data-index='${array.index}'><div class='widget'></div><div class='zoom'></div><h3>Array${pathText}</h3>`;
+    let out = `<div class='array${(minimised ? " minimised dry" : "")}' data-index='${array.index}'><div class='widget'></div><div class='zoom'></div><h3>Array${pathText}</h3>`;
     if(!minimised) out += renderTuples(array);
     out += "</div>";
     return out;
@@ -44,7 +44,7 @@ window.render = function(root, targeted) {
 
     const minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
 
-    var out = `<div class='object${(minimised ? " minimised dry" : "")}' data-index='${object.index}'><div class='widget'></div><div class='zoom'></div><h3>Object${pathText}</h3>`;
+    let out = `<div class='object${(minimised ? " minimised dry" : "")}' data-index='${object.index}'><div class='widget'></div><div class='zoom'></div><h3>Object${pathText}</h3>`;
     if(!minimised) out += renderTuples(object);
     out += "</div>";
     return out;
