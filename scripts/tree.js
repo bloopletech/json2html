@@ -78,6 +78,7 @@ window.transformTree = function(parseTree) {
   Object.defineProperty(TreeObject.prototype, "type", { value: "object" });
   Object.defineProperty(TreeObject.prototype, "typeLabel", { value: "Object" });
   Object.defineProperty(TreeObject.prototype, "simple", { value: false });
+  Object.defineProperty(TreeObject.prototype, "keyLabel", { value: "Name" });
 
   var TreeArray = function(address) {
     this.address = address;
@@ -88,6 +89,7 @@ window.transformTree = function(parseTree) {
   Object.defineProperty(TreeArray.prototype, "type", { value: "array" });
   Object.defineProperty(TreeArray.prototype, "typeLabel", { value: "Array" });
   Object.defineProperty(TreeArray.prototype, "simple", { value: false });
+  Object.defineProperty(TreeArray.prototype, "keyLabel", { value: "Index" });
 
   function transform(val, address) {
     var type = typeof(val);

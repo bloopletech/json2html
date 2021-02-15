@@ -5,8 +5,7 @@ window.render = function(root, targeted) {
   let renderCount = 0;
 
   function renderTuples(node) {
-    const nameColumnName = node.type == "array" ? "Index" : "Name";
-    let out = `<table><tr><th>${nameColumnName}</th><th>Value</th></tr>`;
+    let out = `<table><tr><th>${node.keyLabel}</th><th>Value</th></tr>`;
 
     for(const tuple of node.tuples) {
       const value = tuple.value;
@@ -14,8 +13,7 @@ window.render = function(root, targeted) {
       out += `<td class='${value.type}'${(value.simple ? ` title='${value.typeLabel}'` : "")}>`;
 
       if(value.simple) out += e(value.value);
-      else if(value.type == "array") out += renderArray(value);
-      else if(value.type == "object") out += renderObject(value);
+      else out += renderNode(value);
 
       out += "</td></tr>";
     }
@@ -24,33 +22,19 @@ window.render = function(root, targeted) {
     return out;
   }
 
-  function renderArray(array) {
+  function renderNode(node) {
     renderCount++;
-    const pathText = array == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
-    if(!array.tuples.length) return `<div data-index='${array.index}'>(empty Array${pathText})</div>`;
+    const pathText = node == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
+    if(!node.tuples.length) return `<div data-index='${node.index}'>(empty ${node.typeLabel}${pathText})</div>`;
 
     const minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
 
-    let out = `<div class='array${(minimised ? " minimised dry" : "")}' data-index='${array.index}'><div class='widget'></div><div class='zoom'></div><h3>Array${pathText}</h3>`;
-    if(!minimised) out += renderTuples(array);
+    let out = `<div class='${node.type}${(minimised ? " minimised dry" : "")}' data-index='${node.index}'><div class='widget'></div><div class='zoom'></div><h3>${node.typeLabel}${pathText}</h3>`;
+    if(!minimised) out += renderTuples(node);
     out += "</div>";
     return out;
   }
 
-  function renderObject(object) {
-    renderCount++;
-    const pathText = object == root && targeted ? ` <code>${e(Util.itemPath(root))}</code>` : "";
-    if(!object.tuples.length) return `<div data-index='${object.index}'>(empty Object${pathText})</div>`;
-
-    const minimised = renderCount >= LARGE_RENDER_COUNT_CUTOFF;
-
-    let out = `<div class='object${(minimised ? " minimised dry" : "")}' data-index='${object.index}'><div class='widget'></div><div class='zoom'></div><h3>Object${pathText}</h3>`;
-    if(!minimised) out += renderTuples(object);
-    out += "</div>";
-    return out;
-  }
-
-  if(root.type == "array") return renderArray(root);
-  if(root.type == "object") return renderObject(root);
-  return `<span class='${root.type}' title='${root.typeLabel}'>${e(root.value)}</span>`;
+  if(root.simple) return `<div class='${root.type}' title='${root.typeLabel}'>${e(root.value)}</siv>`;
+  return renderNode(root);
 };
