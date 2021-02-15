@@ -35,6 +35,6 @@ window.render = function(root, targeted) {
     return out;
   }
 
-  if(root.simple) return `<div class='${root.type}' title='${root.typeLabel}'>${e(root.value)}</siv>`;
+  if(root.simple) return `<div class='${root.type}' title='${root.typeLabel}' data-index='${root.index}'>${e(root.value)}</siv>`;
   return renderNode(root);
 };
