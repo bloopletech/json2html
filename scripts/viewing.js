@@ -27,6 +27,7 @@
 
     $("#focus-path").textContent = Util.itemPath(item);
     $("#focus-trail").textContent = itemTrail(item);
+    $("#focus-type").textContent = item.typeLabel;
   }
 
   let currentOutlineElement = null;
@@ -97,6 +98,7 @@
     $("#reset").addEventListener("click", function(event) {
       $("#focus-path").textContent = "";
       $("#focus-trail").textContent = "";
+      $("#focus-type").textContent = "";
     });
   }
 

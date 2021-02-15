@@ -38,13 +38,22 @@
 
       <div id="output"></div>
 
-      <div id="focus" class="clearfix">
-        <div class="rfloat">
+      <div id="focus">
+        <div id="focus-output">
+          <div>
+            <label>Property path:</label> <code id="focus-path"></code>
+          </div>
+          <div>
+            <label>Trail:</label> <span id="focus-trail"></span>
+          </div>
+          <div>
+            <label>Type:</label> <span id="focus-type"></span>
+          </div>
+        </div>
+        <div id="actions">
           <input type="button" id="show-stats" value="Statistics" disabled>
           <input type="button" id="show-help" value="Help">
         </div>
-        <label>Property path:</label> <code id="focus-path"></code><br>
-        <label>Trail:</label> <span id="focus-trail"></span>
       </div>
 
       <div id="help-content">
