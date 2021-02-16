@@ -43,7 +43,7 @@ table {
 }
 
 table th, table td {
-  padding: 3px 5px;
+  padding: 4px 6px;
   border: 1px solid #000000;
   vertical-align: top;
 }
@@ -91,8 +91,8 @@ h3 code {
 
 div.object, div.array {
   display: inline-block;
-  padding: 15px;
-  min-width: 130px;
+  padding: 16px;
+  min-width: 132px;
 }
 
 div.object {
@@ -112,7 +112,7 @@ div.array > table {
 }
 
 td.object, td.array {
-  padding: 5px;
+  padding: 8px;
 }
 
 .string {
