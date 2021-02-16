@@ -1,8 +1,19 @@
 "use strict";
 
 window.Util = (function() {
+  var dateFormatter = new Intl.DateTimeFormat(undefined, { dateStyle: "long", timeStyle: "long" });
+
+  function formatDate(date) {
+    return dateFormatter.format(date);
+  }
+
+  function formatTimestamp(timestamp) {
+    return formatDate(Date.parse(timestamp));
+  }
+
   function format(input) {
-    const type = typeof input;
+    var type = typeof input;
+    if(input instanceof Date) return formatDate(input);
     if(type == "number") return input.toLocaleString();
     return input;
   }
@@ -79,6 +90,8 @@ window.Util = (function() {
   }
 
   return {
+    formatDate: formatDate,
+    formatTimestamp: formatTimestamp,
     format: format,
     escapeHTML: escapeHTML,
     formatThenEscape: formatThenEscape,

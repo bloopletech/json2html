@@ -9,19 +9,22 @@ window.render = function(root, targeted) {
     return e(value.value);
   }
 
+  function renderTitle(value) {
+    if(value.extendedType == "timestamp") {
+      return `${value.typeLabel} (${value.extendedTypeLabel}) In local time: ${Util.formatTimestamp(value.value)}`;
+    }
+    if(value.extendedType) return `${value.typeLabel} (${value.extendedTypeLabel})`;
+    return value.typeLabel;
+  }
+
   function renderTuples(node) {
     let out = `<table><tr><th>${node.keyLabel}</th><th>Value</th></tr>`;
 
     for(const tuple of node.tuples) {
       const value = tuple.value;
       out += `<tr data-index='${value.index}'><td>${e(tuple.name)}</td>`;
-      if(value.simple) {
-        const title = value.extendedType ? `${value.typeLabel} (${value.extendedTypeLabel})` : value.typeLabel;
-        out += `<td class='${value.type}' title='${title}'>`;
-      }
-      else {
-        out += `<td class='${value.type}'>`;
-      }
+      if(value.simple) out += `<td class='${value.type}' title='${renderTitle(value)}'>`;
+      else out += `<td class='${value.type}'>`;
 
       if(value.simple) out += renderValue(value);
       else out += renderNode(value);

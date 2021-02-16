@@ -21,7 +21,13 @@ window.transformTree = function(parseTree) {
   Object.defineProperty(TreeVoid.prototype, "extendedTypeLabel", { value: null });
   Object.defineProperty(TreeVoid.prototype, "simple", { value: true });
 
+  // Based on https://stackoverflow.com/a/3143231 .
+  const ISO_TIMESTAMP_REGEXP = /^(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)$/;
+  const ISO_TIMESTAMP_TZ_REGEXP = /^(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:?[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:?[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:?[0-5]\d|Z))$/;
+
   function parseExtendedType(value) {
+    if(ISO_TIMESTAMP_REGEXP.test(value) || ISO_TIMESTAMP_TZ_REGEXP.test(value)) return "timestamp";
+
     if(/^(ftp|file|https?|wss?):/.test(value)) {
       try {
         new URL(value);
@@ -35,6 +41,7 @@ window.transformTree = function(parseTree) {
   }
 
   const EXTENDED_TYPE_LABEL_MAP = {
+    "timestamp": "ISO8601 Timestamp",
     "url": "URL",
     "null": null
   };
