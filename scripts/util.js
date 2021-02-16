@@ -57,11 +57,11 @@ window.Util = (function() {
    *
    * @return Formatted string.
    */
-  function humanFileSize(bytes, si, dp) {
+  function humanFileSize(bytes, si = true, dp = 2) {
     const thresh = si ? 1000 : 1024;
 
     if(Math.abs(bytes) < thresh) {
-      return bytes + ' B';
+      return bytes.toLocaleString(undefined, { minimumFractionDigits: dp, maximumFractionDigits: dp }) + ' B';
     }
 
     const units = si
@@ -75,7 +75,7 @@ window.Util = (function() {
       ++u;
     } while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
 
-    return bytes.toFixed(dp) + ' ' + units[u];
+    return bytes.toLocaleString(undefined, { minimumFractionDigits: dp, maximumFractionDigits: dp }) + ' ' + units[u];
   }
 
   return {
