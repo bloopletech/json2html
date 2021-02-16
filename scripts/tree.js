@@ -16,12 +16,34 @@ window.transformTree = function(parseTree) {
   }
 
   Object.defineProperty(TreeVoid.prototype, "type", { value: "void" });
+  Object.defineProperty(TreeVoid.prototype, "extendedType", { value: null });
   Object.defineProperty(TreeVoid.prototype, "typeLabel", { value: "Void" });
+  Object.defineProperty(TreeVoid.prototype, "extendedTypeLabel", { value: null });
   Object.defineProperty(TreeVoid.prototype, "simple", { value: true });
+
+  function parseExtendedType(value) {
+    if(/^(ftp|file|https?|wss?):/.test(value)) {
+      try {
+        new URL(value);
+        return "url";
+      }
+      catch(_) {
+      }
+    }
+
+    return null;
+  }
+
+  const EXTENDED_TYPE_LABEL_MAP = {
+    "url": "URL",
+    "null": null
+  };
 
   var TreeString = function(address, value) {
     this.address = address;
     this.value = value.toString();
+    this.extendedType = parseExtendedType(this.value);
+    this.extendedTypeLabel = EXTENDED_TYPE_LABEL_MAP[this.extendedType];
     register(this);
   }
 
@@ -36,7 +58,9 @@ window.transformTree = function(parseTree) {
   }
 
   Object.defineProperty(TreeNumber.prototype, "type", { value: "number" });
+  Object.defineProperty(TreeNumber.prototype, "extendedType", { value: null });
   Object.defineProperty(TreeNumber.prototype, "typeLabel", { value: "Number" });
+  Object.defineProperty(TreeNumber.prototype, "extendedTypeLabel", { value: null });
   Object.defineProperty(TreeNumber.prototype, "simple", { value: true });
 
   var TreeBoolean = function(address, value) {
@@ -46,7 +70,9 @@ window.transformTree = function(parseTree) {
   }
 
   Object.defineProperty(TreeBoolean.prototype, "type", { value: "boolean" });
+  Object.defineProperty(TreeBoolean.prototype, "extendedType", { value: null });
   Object.defineProperty(TreeBoolean.prototype, "typeLabel", { value: "Boolean" });
+  Object.defineProperty(TreeBoolean.prototype, "extendedTypeLabel", { value: null });
   Object.defineProperty(TreeBoolean.prototype, "simple", { value: true });
 
   var TreeTuple = function(name, value) {
@@ -76,7 +102,9 @@ window.transformTree = function(parseTree) {
   }
 
   Object.defineProperty(TreeObject.prototype, "type", { value: "object" });
+  Object.defineProperty(TreeObject.prototype, "extendedType", { value: null });
   Object.defineProperty(TreeObject.prototype, "typeLabel", { value: "Object" });
+  Object.defineProperty(TreeObject.prototype, "extendedTypeLabel", { value: null });
   Object.defineProperty(TreeObject.prototype, "simple", { value: false });
   Object.defineProperty(TreeObject.prototype, "keyLabel", { value: "Name" });
 
@@ -87,7 +115,9 @@ window.transformTree = function(parseTree) {
   }
 
   Object.defineProperty(TreeArray.prototype, "type", { value: "array" });
+  Object.defineProperty(TreeArray.prototype, "extendedType", { value: null });
   Object.defineProperty(TreeArray.prototype, "typeLabel", { value: "Array" });
+  Object.defineProperty(TreeArray.prototype, "extendedTypeLabel", { value: null });
   Object.defineProperty(TreeArray.prototype, "simple", { value: false });
   Object.defineProperty(TreeArray.prototype, "keyLabel", { value: "Index" });
 

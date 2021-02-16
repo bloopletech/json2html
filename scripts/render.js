@@ -4,15 +4,26 @@ window.render = function(root, targeted) {
   const LARGE_RENDER_COUNT_CUTOFF = 250; // 250 nodes
   let renderCount = 0;
 
+  function renderValue(value) {
+    if(value.extendedType == "url") return `<a href='${e(value.value)}' target='blank'>${e(value.value)}</a>`;
+    return e(value.value);
+  }
+
   function renderTuples(node) {
     let out = `<table><tr><th>${node.keyLabel}</th><th>Value</th></tr>`;
 
     for(const tuple of node.tuples) {
       const value = tuple.value;
       out += `<tr data-index='${value.index}'><td>${e(tuple.name)}</td>`;
-      out += `<td class='${value.type}'${(value.simple ? ` title='${value.typeLabel}'` : "")}>`;
+      if(value.simple) {
+        const title = value.extendedType ? `${value.typeLabel} (${value.extendedTypeLabel})` : value.typeLabel;
+        out += `<td class='${value.type}' title='${title}'>`;
+      }
+      else {
+        out += `<td class='${value.type}'>`;
+      }
 
-      if(value.simple) out += e(value.value);
+      if(value.simple) out += renderValue(value);
       else out += renderNode(value);
 
       out += "</td></tr>";
@@ -35,6 +46,9 @@ window.render = function(root, targeted) {
     return out;
   }
 
-  if(root.simple) return `<div class='${root.type}' title='${root.typeLabel}' data-index='${root.index}'>${e(root.value)}</siv>`;
+  if(root.simple) {
+    const title = root.extendedType ? `${root.typeLabel} (${root.extendedTypeLabel})` : root.typeLabel;
+    return `<div class='${root.type}' title='${title}' data-index='${root.index}'>${renderValue(root)}</siv>`;
+  }
   return renderNode(root);
 };

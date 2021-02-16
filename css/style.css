@@ -197,6 +197,14 @@ div.zoomed {
   flex: 1;
 }
 
+#focus-extended-type.present::before {
+  content: " (";
+}
+
+#focus-extended-type.present::after {
+  content: ")";
+}
+
 #stats table {
   border: none;
 }

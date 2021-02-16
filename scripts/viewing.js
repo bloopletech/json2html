@@ -28,6 +28,8 @@
     $("#focus-path").textContent = Util.itemPath(item);
     $("#focus-trail").textContent = itemTrail(item);
     $("#focus-type").textContent = item.typeLabel;
+    $("#focus-extended-type").textContent = item.extendedTypeLabel;
+    $("#focus-extended-type").classList.toggle("present", item.extendedType);
   }
 
   let currentOutlineElement = null;
@@ -99,6 +101,8 @@
       $("#focus-path").textContent = "";
       $("#focus-trail").textContent = "";
       $("#focus-type").textContent = "";
+      $("#focus-extended-type").textContent = "";
+      $("#focus-extended-type").classList.remove("present");
     });
   }
 
