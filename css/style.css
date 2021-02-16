@@ -78,7 +78,7 @@ form > .mast {
 .footer {
   background-color: #ffffaa;
   margin-bottom: 64px;
-  padding: 3px;
+  padding: 5px 16px;
 }
 
 #output {
