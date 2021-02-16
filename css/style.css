@@ -5,9 +5,8 @@
 }
 
 body {
-  min-height: 100%;
-  margin: 0 0 10px;
-  padding: 0;
+  display: inline-block;
+  min-width: 100%;
   background-color: #ffffff;
   color: #000000;
 }
@@ -29,8 +28,6 @@ hr {
   border: none;
   height: 1px;
   background-color: #808080;
-  margin-left: -16px;
-  margin-right: -16px;
 }
 
 textarea {
@@ -70,6 +67,11 @@ table th {
   margin-top: 0;
 }
 
+form {
+  max-width: calc(100vw - 17px);
+  padding: 0 16px;
+}
+
 form > .mast {
   font-size: 18px;
 }
@@ -79,11 +81,6 @@ form > .mast {
   margin-left: 16px;
 }
 
-.mainbody {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
 .footer {
   background-color: #ffffaa;
   margin-bottom: 64px;
@@ -91,8 +88,7 @@ form > .mast {
 }
 
 #output {
-  margin-top: 16px;
-  margin-bottom: 16px;
+  padding: 16px;
 }
 
 h3 {

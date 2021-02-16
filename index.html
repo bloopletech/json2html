@@ -19,79 +19,79 @@
     <div id="header">
       <img alt="json 2 html" src="images/logo.png" />
     </div>
-    <div class="mainbody">
-      <form onsubmit="doParse(); return false;">
-        <p class="mast mast_first">
-          This page offers an easy way to visualize a string of JSON text.
-          Put some JSON into the text area, and this page will instantly display the text as a set of nested boxes,
-          corresponding to the objects, arrays and values in the JSON string.<br>
-          You can also paste a URL into the textarea, and the JSON string will be loaded from the URL.
-        </p>
-        <p class="mast">
-          JSON 2 HTML is open source and released under the MIT license -
-          <a href="http://github.com/bloopletech/json2html/tree/master">get the source on github</a>. Patches / improvements are welcomed!
-        </p>
-        <code>
-          <textarea id="text" rows="12" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-        </code>
-        <input id="submit" onclick="doParse(); return false;" type="submit" value="json 2 html">
-        <input id="reset" type="button" value="reset">
-        <hr/>
-      </form>
 
-      <div id="output"></div>
+    <form onsubmit="doParse(); return false;">
+      <p class="mast mast_first">
+        This page offers an easy way to visualize a string of JSON text.
+        Put some JSON into the text area, and this page will instantly display the text as a set of nested boxes,
+        corresponding to the objects, arrays and values in the JSON string.<br>
+        You can also paste a URL into the textarea, and the JSON string will be loaded from the URL.
+      </p>
+      <p class="mast">
+        JSON 2 HTML is open source and released under the MIT license -
+        <a href="http://github.com/bloopletech/json2html/tree/master">get the source on github</a>. Patches / improvements are welcomed!
+      </p>
+      <code>
+        <textarea id="text" rows="12" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+      </code>
+      <input id="submit" onclick="doParse(); return false;" type="submit" value="json 2 html">
+      <input id="reset" type="button" value="reset">
+    </form>
 
-      <div id="focus">
-        <div id="focus-output">
-          <div>
-            <label>Property path:</label> <code id="focus-path"></code>
-          </div>
-          <div>
-            <label>Trail:</label> <span id="focus-trail"></span>
-          </div>
-          <div>
-            <label>Type:</label> <span id="focus-type"></span>
-          </div>
+    <hr>
+
+    <div id="output"></div>
+
+    <div id="focus">
+      <div id="focus-output">
+        <div>
+          <label>Property path:</label> <code id="focus-path"></code>
         </div>
-        <div id="actions">
-          <input type="button" id="show-stats" value="Statistics" disabled>
-          <input type="button" id="show-help" value="Help">
+        <div>
+          <label>Trail:</label> <span id="focus-trail"></span>
+        </div>
+        <div>
+          <label>Type:</label> <span id="focus-type"></span>
         </div>
       </div>
-
-      <div id="help-content">
-        <h3>json</h3>
-        <p>
-          <img alt="JSON logo" class="jsonlogo" src="images/json.gif" />
-          <i>Quoting from the home page of
-            <a href="http://www.json.org/">JSON</a>
-          </i><br>
-          JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate.</p>
-        <h3>syntax highlighting:</h3>
-        <p>
-          <span class="string">Colour for text and null values.</span><br>
-          <span class="number">Colour for numbers.</span><br>
-          <span class="boolean">Colour for true and false values.</span><br>
-          <span class="void">Colour for void values.</span><br>
-          <img class="ex" src="images/object.png" />
-          Background for Objects.<br>
-          <img class="ex" src="images/array.png" />
-          Background for Arrays.<br>
-          <img class="ex" src="images/objectt.png" />
-          Background for Object name/value pair tables.<br>
-          <img class="ex" src="images/arrayt.png" />
-          Background for Array value tables.</p>
-        <h3>note</h3>
-        <p>
-          Individual 'words' that are extremely long may be broken into two or more lines to conserve horizontal space.
-        </p>
+      <div id="actions">
+        <input type="button" id="show-stats" value="Statistics" disabled>
+        <input type="button" id="show-help" value="Help">
       </div>
+    </div>
 
-      <div class="footer">
-        Check out my portfolio at
-        <a href="http://i.bloople.net">i.bloople.net</a>. &copy; Brenton Fletcher. Comments? e-mail me:
-        <a href="mailto:i@bloople.net">i@bloople.net</a>.
-      </div>
+    <div id="help-content">
+      <h3>json</h3>
+      <p>
+        <img alt="JSON logo" class="jsonlogo" src="images/json.gif" />
+        <i>Quoting from the home page of
+          <a href="http://www.json.org/">JSON</a>
+        </i><br>
+        JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate.</p>
+      <h3>syntax highlighting:</h3>
+      <p>
+        <span class="string">Colour for text and null values.</span><br>
+        <span class="number">Colour for numbers.</span><br>
+        <span class="boolean">Colour for true and false values.</span><br>
+        <span class="void">Colour for void values.</span><br>
+        <img class="ex" src="images/object.png" />
+        Background for Objects.<br>
+        <img class="ex" src="images/array.png" />
+        Background for Arrays.<br>
+        <img class="ex" src="images/objectt.png" />
+        Background for Object name/value pair tables.<br>
+        <img class="ex" src="images/arrayt.png" />
+        Background for Array value tables.</p>
+      <h3>note</h3>
+      <p>
+        Individual 'words' that are extremely long may be broken into two or more lines to conserve horizontal space.
+      </p>
+    </div>
+
+    <div class="footer">
+      Check out my portfolio at
+      <a href="http://i.bloople.net">i.bloople.net</a>. &copy; Brenton Fletcher. Comments? e-mail me:
+      <a href="mailto:i@bloople.net">i@bloople.net</a>.
     </div>
   </body>
 </html>
