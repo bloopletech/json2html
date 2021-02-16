@@ -1,9 +1,3 @@
-.clearfix::after {
-  content: " ";
-  display: table;
-  clear: both;
-}
-
 body {
   display: inline-block;
   min-width: 100%;
