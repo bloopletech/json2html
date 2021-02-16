@@ -38,13 +38,13 @@ input[type="button"], input[type="submit"] {
 }
 
 table {
-  border: 1px solid #000000;
+  border: 1px solid #333;
   border-collapse: collapse;
 }
 
 table th, table td {
   padding: 4px 6px;
-  border: 1px solid #000000;
+  border: 1px solid #333;
   vertical-align: top;
 }
 
