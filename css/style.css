@@ -1,6 +1,8 @@
 body {
   display: inline-block;
   min-width: 100%;
+  padding-bottom: 114px;
+  font-size: 16px;
   background-color: #ffffff;
   color: #000000;
 }
