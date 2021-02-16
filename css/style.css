@@ -68,13 +68,13 @@ form p {
   font-size: 18px;
 }
 
+#output {
+  padding: 16px;
+}
+
 #footer {
   background-color: #ffffaa;
   padding: 5px 16px;
-}
-
-#output {
-  padding: 16px;
 }
 
 h3 {
