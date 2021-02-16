@@ -17,7 +17,7 @@ textarea {
 }
 
 p {
-  margin: 0 0 15px;
+  margin: 0 0 22px;
 }
 
 hr {
@@ -59,22 +59,13 @@ table th {
   text-align: center;
 }
 
-.mast_first {
-  margin-top: 0;
-}
-
 form {
   max-width: calc(100vw - 17px);
   padding: 0 16px;
 }
 
-form > .mast {
+form p {
   font-size: 18px;
-}
-
-.jsonlogo {
-  float: right;
-  margin-left: 16px;
 }
 
 #footer {
@@ -221,4 +212,9 @@ div.zoomed {
   vertical-align: middle;
   margin-bottom: 1px;
   margin-top: 1px;
+}
+
+#json-logo {
+  float: right;
+  margin-left: 16px;
 }

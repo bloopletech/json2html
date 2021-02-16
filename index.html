@@ -21,13 +21,13 @@
     </div>
 
     <form onsubmit="doParse(); return false;">
-      <p class="mast mast_first">
+      <p>
         This page offers an easy way to visualize a string of JSON text.
         Put some JSON into the text area, and this page will instantly display the text as a set of nested boxes,
         corresponding to the objects, arrays and values in the JSON string.<br>
         You can also paste a URL into the textarea, and the JSON string will be loaded from the URL.
       </p>
-      <p class="mast">
+      <p>
         JSON 2 HTML is open source and released under the MIT license -
         <a href="http://github.com/bloopletech/json2html/tree/master">get the source on github</a>. Patches / improvements are welcomed!
       </p>
@@ -67,14 +67,13 @@
     </div>
 
     <div id="help-content">
-      <h3>json</h3>
+      <h3>JSON</h3>
       <p>
-        <img alt="JSON logo" class="jsonlogo" src="images/json.gif" />
-        <i>Quoting from the home page of
-          <a href="http://www.json.org/">JSON</a>
-        </i><br>
-        JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate.</p>
-      <h3>syntax highlighting:</h3>
+        <img id="json-logo" alt="JSON logo" src="images/json.gif">
+        <i>Quoting from the home page of <a href="http://www.json.org/">JSON</a></i><br>
+        JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate.
+      </p>
+      <h3>Syntax Highlighting</h3>
       <p>
         <span class="string">Colour for text and null values.</span><br>
         <span class="number">Colour for numbers.</span><br>
@@ -88,7 +87,7 @@
         Background for Object name/value pair tables.<br>
         <img class="ex" src="images/arrayt.png" />
         Background for Array value tables.</p>
-      <h3>note</h3>
+      <h3>Note</h3>
       <p>
         Individual 'words' that are extremely long may be broken into two or more lines to conserve horizontal space.
       </p>
