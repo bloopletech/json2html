@@ -101,7 +101,7 @@ h3 code {
 div.object, div.array {
   display: inline-block;
   padding: 15px;
-  min-width: 100px;
+  min-width: 130px;
 }
 
 div.object {
