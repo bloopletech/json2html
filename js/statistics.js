@@ -29,16 +29,37 @@ window.renderStatistics = function(node, text) {
 
   function render(result, text) {
     const textByteLength = Util.byteLength(text);
-    return "<div id='stats'><h3>Statistics</h3>\n<table>\n<tr>\n<td>Number of Arrays:</td>\n<td>"
-      + Util.format(result.arrayCount) + "</td>\n</tr>\n"
-      + "<tr>\n<td>Number of Objects:</td>\n<td>" + Util.format(result.objectCount) + "</td>\n</tr>\n"
-       + "<tr>\n<td>Total number of all elements:</td>\n<td>" + Util.format(result.elementCount) + "</td>\n</tr>\n"
-        + "<tr>\n<td>Nesting depth:</td>\n<td>" + Util.format(tree.nestingLevel) + "</td>\n</tr>\n"
-        + "<tr>\n<td>Size of JSON document (UTF-8 bytes):</td>\n<td>" + Util.humanFileSize(textByteLength) + " ("
-        + Util.format(textByteLength) + " B)</td>\n</tr>\n"
-        + "<tr>\n<td>Size of JSON document (UTF-16 code units):</td>\n<td>" + Util.humanFileSize(text.length) + " ("
-        + Util.format(text.length) + " B)</td>\n</tr>\n"
-        + "</table>\n</div>\n";
+    return `
+      <div id='stats'>
+        <h3>Statistics</h3>
+        <table>
+          <tr>
+            <td>Number of Arrays:</td>
+            <td>${Util.format(result.arrayCount)}</td>
+          </tr>
+          <tr>
+            <td>Number of Objects:</td>
+            <td>${Util.format(result.objectCount)}</td>
+          </tr>
+          <tr>
+            <td>Total number of all elements:</td>
+            <td>${Util.format(result.elementCount)}</td>
+          </tr>
+          <tr>
+            <td>Nesting depth:</td>
+            <td>${Util.format(tree.nestingLevel)}</td>
+          </tr>
+          <tr>
+            <td>Size of JSON document (UTF-8 bytes):</td>
+            <td>${Util.humanFileSize(textByteLength)} (${Util.format(textByteLength)} B)</td>
+          </tr>
+          <tr>
+            <td>Size of JSON document (UTF-16 code units):</td>
+            <td>${Util.humanFileSize(text.length)} (${Util.format(text.length)} B)</td>
+          </tr>
+        </table>
+      </div>
+    `;
   }
 
   return render(gather(node), text);
