@@ -1,6 +1,6 @@
 "use strict";
 
-window.renderStatistics = function(node, text) {
+window.renderStatistics = function(text) {
   function gather(root) {
     let elementCount = 0;
     let arrayCount = 0;
@@ -27,8 +27,9 @@ window.renderStatistics = function(node, text) {
     };
   };
 
-  function render(result, text) {
+  function render(text) {
     const textByteLength = Util.byteLength(text);
+    const result = gather(window.tree.root);
     return `
       <div id='stats'>
         <h3>Statistics</h3>
@@ -47,7 +48,7 @@ window.renderStatistics = function(node, text) {
           </tr>
           <tr>
             <td>Nesting depth:</td>
-            <td>${Util.format(tree.nestingLevel)}</td>
+            <td>${Util.format(window.tree.nestingLevel)}</td>
           </tr>
           <tr>
             <td>Size of JSON document (UTF-8 bytes):</td>
@@ -62,5 +63,5 @@ window.renderStatistics = function(node, text) {
     `;
   }
 
-  return render(gather(node), text);
+  return render(text);
 };

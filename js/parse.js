@@ -34,7 +34,7 @@ function json2html(str) {
 
   $("#output").innerHTML = render(tree.root);
 
-  statsContent = renderStatistics(tree.root, str);
+  statsContent = renderStatistics(str);
   $("#show-stats").disabled = null;
 
   enableSubmit();
