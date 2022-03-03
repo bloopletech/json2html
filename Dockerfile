@@ -19,6 +19,6 @@ RUN inliner --nosvg --noimages < index.html | sed -e 's/url("..\//url("/g' > dis
 # It tells rsync to create e.g. dist/music and put the contents of music into dist/music.
 RUN cp -a images favicon.ico .user.ini get.php dist
 
-FROM bloopletech/alpine-nginx-php7:latest
+FROM nginx:1.17.9-alpine
 
-COPY --from=builder /usr/src/app/dist/ /var/www/html/
+COPY --from=builder /usr/src/app/dist/ /usr/share/nginx/html/

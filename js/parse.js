@@ -23,6 +23,11 @@ function enableSubmit() {
   $("#submit").disabled = null;
 }
 
+function cancelProcessing() {
+  enableSubmit();
+  $("#text").focus();
+}
+
 function parse(str) {
   try {
     return JSON.parse(str);
@@ -35,8 +40,7 @@ function parse(str) {
       alert("There was an unknown error. Perhaps the JSON string contained a deep level of nesting.");
     }
 
-    enableSubmit();
-    $("#text").focus();
+    cancelProcessing();
     return;
   }
 }
@@ -66,7 +70,7 @@ function doParse() {
 
 function doParse2() {
   const value = $("#text").value != "" ? $("#text").value : window.offscreenText;
-  if(value.substr(0, 4) == "http" || value.substr(0, 4) == "file" || value.substr(0, 3) == "ftp") {
+  if(value.substr(0, 4) == "http") {
     getURL(value);
   }
   else {
@@ -74,13 +78,21 @@ function doParse2() {
   }
 }
 
-function getURL(str) {
-  const http = new XMLHttpRequest();
-  http.open("get", "get.php?url=" + str);
-  http.onreadystatechange = function() {
-    if(http.readyState == 4) json2html(http.responseText);
-  };
-  http.send(null);
+async function getURL(str) {
+  try {
+    const response = await fetch(str, { cache: "no-store" });
+    if(response.ok) {
+      json2html(await response.text());
+    }
+    else {
+      alert(`Requesting the given URL produced an unsuccessful response:\n${response.status} ${response.statusText}`);
+      cancelProcessing();
+    }
+  }
+  catch(e) {
+    alert(`There was an error when requesting the given URL:\n${e.toString()}`);
+    cancelProcessing();
+  }
 }
 
 const LARGE_DOCUMENT_CUTOFF = 150 * 1024; // 150K "UTF-16 code units"
