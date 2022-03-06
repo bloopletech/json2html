@@ -1,5 +1,7 @@
 FROM node:12-alpine AS builder
 
+RUN test -e /var/run || ln -s /run /var/run
+
 WORKDIR /usr/src/app
 ENV LANG="C.UTF-8"
 
@@ -18,7 +20,3 @@ RUN inliner --nosvg --noimages < index.html | sed -e 's/url("..\//url("/g' > dis
 # Listing the source directories without a slash is intentional.
 # It tells rsync to create e.g. dist/music and put the contents of music into dist/music.
 RUN cp -a images favicon.ico .user.ini get.php dist
-
-FROM nginx:1.17.9-alpine
-
-COPY --from=builder /usr/src/app/dist/ /usr/share/nginx/html/
